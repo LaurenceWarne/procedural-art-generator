@@ -1,16 +1,23 @@
 package com.gmail.laurencewarne.artgenerator.cellgrid;
 
+import java.util.List;
+
 
 public interface ICellGrid<E> {
 
-    CellCoordinate[] getCoordsOfMooreNeighbours( CellCoordinate coord );
+    List<CellCoordinate> getCoordsOfMooreNeighbours( CellCoordinate coord )
+	throws IllegalArgumentException;
 
-    CellCoordinate[] getCoordsOfNeumannNeighbours( CellCoordinate coord );
+    List<CellCoordinate> getCoordsOfNeumannNeighbours( CellCoordinate coord )
+	throws IllegalArgumentException;
 
-    CellCoordinate[] getCoordsOfCellsEqualTo( E value );
+    List<CellCoordinate> getCoordsOfCellsEqualTo( E value )
+	throws IllegalArgumentException;
 
-    E getValueAt( CellCoordinate coord );
+    E getValueAt( CellCoordinate coord )
+	throws IllegalArgumentException;
 
-    void setValueAt( CellCoordinate coord, E value );
+    void setValueAt( CellCoordinate coord, E value )
+	throws IllegalArgumentException;
 
 }

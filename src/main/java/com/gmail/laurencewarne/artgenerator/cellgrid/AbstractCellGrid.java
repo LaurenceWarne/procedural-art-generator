@@ -1,7 +1,7 @@
 package com.gmail.laurencewarne.artgenerator.cellgrid;
 
 
-public abstract class AbstractCellGrid implements ICellGrid {
+public abstract class AbstractCellGrid<E> implements ICellGrid<E> {
 
     /** The number of columns in the grid. **/
     final protected int xLength;
