@@ -32,9 +32,7 @@ public class ArrayListCellGrid<E> extends AbstractCellGrid<E> implements ICellGr
 	    for ( int j = coord.x - 1; j < coord.x + 2; j++ ){
 		CellCoordinate newCoord = new CellCoordinate(j, i);
 		// Check the coordinate is valid and not the input coordinate
-		if ( newCoord.equals(coord) || !isValidCoord(newCoord) )
-		    continue;
-		else
+		if ( isValidCoord(newCoord) && !newCoord.equals(coord) )
 		    adjCoords.add(newCoord);
 	    }
 	}
@@ -53,10 +51,8 @@ public class ArrayListCellGrid<E> extends AbstractCellGrid<E> implements ICellGr
 		CellCoordinate newCoord = new CellCoordinate(j, i);
 		// Check the coordinate is valid and not the input coordinate
 		if ( (Math.abs(newCoord.x - coord.x) == 1 ^
-		     Math.abs(newCoord.y - coord.y) == 1) ||
-		     !isValidCoord(newCoord)
-		    continue;
-		else
+		     Math.abs(newCoord.y - coord.y) == 1) &&
+		     isValidCoord(newCoord) )
 		    adjCoords.add(newCoord);
 	    }
 	}
@@ -69,8 +65,8 @@ public class ArrayListCellGrid<E> extends AbstractCellGrid<E> implements ICellGr
 	List<CellCoordinate> equalValues = new LinkedList<CellCoordinate>();
 	for ( int i = 0; i < yLength; i++ ){
 	    for ( int j = 0; j < xLength; j++ ){
-		if ( cellGrid.get(i).get(j).equals(value) )
-		    equalValues.add(value);
+		if ( arrayGrid.get(i).get(j).equals(value) )
+		    equalValues.add(new CellCoordinate(i, j));
 	    }
 	}
 	return equalValues;
@@ -82,7 +78,7 @@ public class ArrayListCellGrid<E> extends AbstractCellGrid<E> implements ICellGr
 	if ( ! isValidCoord(coord) ){
 	    throw new IllegalArgumentException("Coordinate not in the grid!");
 	}	
-	return cellGrid.get(coord.y).get(coord.x);
+	return arrayGrid.get(coord.y).get(coord.x);
     }
 
     @Override
@@ -92,6 +88,6 @@ public class ArrayListCellGrid<E> extends AbstractCellGrid<E> implements ICellGr
 	    throw new IllegalArgumentException("Coordinate not in the grid!");
 	}
 	// do a null check?
-	cellGrid.get(coord.y).set(coord.x, value);
+	arrayGrid.get(coord.y).set(coord.x, value);
     }
 }
