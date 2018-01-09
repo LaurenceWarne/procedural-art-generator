@@ -8,9 +8,10 @@ import java.util.LinkedList;
 
 public class ArrayListCellGrid<E> extends AbstractCellGrid<E> implements ICellGrid<E> {
 
-    private List<List<E>> arrayGrid;
+    /** A nested list that this implementation of ICellGrid wraps. **/
+    protected final List<List<E>> arrayGrid;
 
-    public ArrayListCellGrid( final int xLength, final int yLength, E defaultValue ) {
+    public ArrayListCellGrid( final int xLength, final int yLength, final E defaultValue ) {
 
 	super(xLength, yLength);
 	arrayGrid = new ArrayList<List<E>>();
@@ -21,7 +22,7 @@ public class ArrayListCellGrid<E> extends AbstractCellGrid<E> implements ICellGr
     }
 
     @Override
-    public List<CellCoordinate> getCoordsOfMooreNeighbours( CellCoordinate coord )
+    public List<CellCoordinate> getCoordsOfMooreNeighbours( final CellCoordinate coord )
 	throws IllegalArgumentException {
 
 	if ( !isValidCoord(coord) ){
@@ -40,7 +41,7 @@ public class ArrayListCellGrid<E> extends AbstractCellGrid<E> implements ICellGr
     }
 
     @Override    
-    public List<CellCoordinate> getCoordsOfNeumannNeighbours( CellCoordinate coord ) {
+    public List<CellCoordinate> getCoordsOfNeumannNeighbours( final CellCoordinate coord ) {
 
 	if ( ! isValidCoord(coord) ){
 	    throw new IllegalArgumentException("Coordinate not in the grid!");
@@ -60,7 +61,7 @@ public class ArrayListCellGrid<E> extends AbstractCellGrid<E> implements ICellGr
     }
 
     @Override
-    public List<CellCoordinate> getCoordsOfCellsEqualTo( E value ) {
+    public List<CellCoordinate> getCoordsOfCellsEqualTo( final E value ) {
 
 	List<CellCoordinate> equalValues = new LinkedList<CellCoordinate>();
 	for ( int i = 0; i < yLength; i++ ){
@@ -73,7 +74,7 @@ public class ArrayListCellGrid<E> extends AbstractCellGrid<E> implements ICellGr
     }
     
     @Override
-    public E getValueAt( CellCoordinate coord ) {
+    public E getValueAt( final CellCoordinate coord ) {
 
 	if ( ! isValidCoord(coord) ){
 	    throw new IllegalArgumentException("Coordinate not in the grid!");
@@ -82,7 +83,7 @@ public class ArrayListCellGrid<E> extends AbstractCellGrid<E> implements ICellGr
     }
 
     @Override
-    public void setValueAt( CellCoordinate coord, E value ) {
+    public void setValueAt( final CellCoordinate coord, final E value ) {
 
 	if ( ! isValidCoord(coord) ){
 	    throw new IllegalArgumentException("Coordinate not in the grid!");

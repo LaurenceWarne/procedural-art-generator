@@ -36,11 +36,13 @@ public abstract class AbstractCellGrid<E> implements ICellGrid<E> {
 	}
     }
 
+    @Override
     public int getXLength() {
 
 	return xLength;
     }
 
+    @Override
     public int getYLength() {
 
 	return yLength;

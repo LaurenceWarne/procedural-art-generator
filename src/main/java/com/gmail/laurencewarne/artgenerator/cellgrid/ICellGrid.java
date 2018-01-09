@@ -93,4 +93,20 @@ public interface ICellGrid<E> {
     void setValueAt( CellCoordinate coord, E value )
 	throws IllegalArgumentException;
 
+    /**
+       Returns The length in x of the cell grid, aka the number of 'columns' in
+       the grid.
+       
+       @return the length in x of the grid.
+     */
+    int getXLength();
+
+
+    /**
+       Returns The length in y of the cell grid, aka the number of 'rows' in the
+       grid.
+       
+       @return the length in y of the grid.
+     */
+    int getYLength();
 }
