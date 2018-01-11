@@ -1,6 +1,7 @@
 package com.gmail.laurencewarne.artgenerator.spriteoutline;
 
 import java.util.Random;
+import java.util.List;
 
 import com.gmail.laurencewarne.artgenerator.cellgrid.ICellGrid;
 import com.gmail.laurencewarne.artgenerator.cellgrid.ArrayListCellGrid;
@@ -32,10 +33,14 @@ public class EnumSpriteOutlineGenerator implements ISpriteOutlineGenerator {
 
     /** Grid used to generate the base grid. **/
     protected final ICellGrid<CellState> anteriorGrid;
+    protected final int xLength, yLength;
+    protected final Random random = new Random();
     
     public EnumSpriteOutlineGenerator( final ICellGrid<CellState> anteriorGrid ) {
 
 	this.anteriorGrid = anteriorGrid;
+	this.xLength = anteriorGrid.getXLength();
+	this.yLength = anteriorGrid.getYLength();
     }
 
     /**
@@ -57,14 +62,12 @@ public class EnumSpriteOutlineGenerator implements ISpriteOutlineGenerator {
 
     protected ICellGrid<Boolean> genBaseGrid( final long seed ) {
 
-	Random random = Random.random(seed);
-	int xLen = anteriorGrid.getYLength();
-	int yLen = anteriorGrid.getXLength();
+	Random random = new Random(seed);
 	ICellGrid<Boolean> baseGrid =
-	    new ArrayListCellGrid<Boolean>(xLen, yLen, false);
+	    new ArrayListCellGrid<Boolean>(xLength, yLength, false);
 	// Create array from which outline is made.
-	for ( int i = 0; i < yLen; i++ ){
-	    for ( int j = 0; j < xLen; j++ ){
+	for ( int i = 0; i < yLength; i++ ){
+	    for ( int j = 0; j < xLength; j++ ){
 		CellCoordinate coord = new CellCoordinate(j, i);
 		CellState state = anteriorGrid.getValueAt(coord);
 		if ( state.equals(CellState.ALWAYS_FILLED) )
@@ -81,9 +84,43 @@ public class EnumSpriteOutlineGenerator implements ISpriteOutlineGenerator {
 
     public boolean[][] genSpriteOutline( final long seed ) {
 
-
 	ICellGrid<Boolean> baseGrid = genBaseGrid(seed);
-	boolean[][] spriteArray = new boolean[yLen][xLen];
-	return null;
+	boolean[][] spriteArray = new boolean[yLength][xLength];
+	for ( int i = 0; i < yLength; i++ ){
+	    for ( int j = 0; j < xLength; j++ ){
+		CellCoordinate coord = new CellCoordinate(j, i);
+		boolean state = baseGrid.getValueAt(coord);
+		if ( state == false ){
+		    List<CellCoordinate> neighbours = baseGrid.
+			getCoordsOfMooreNeighbours(coord);
+		    boolean foundNeighbour = false;
+		    for ( CellCoordinate adjCoord : neighbours ){
+			if ( baseGrid.getValueAt(adjCoord) == true ){
+			    foundNeighbour = true;
+			}
+		    }
+		    spriteArray[i][j] = foundNeighbour;
+		}
+		else
+		    spriteArray[i][j] = false;
+	    }
+	}
+	return spriteArray;
     }
+
+    @Override
+    public boolean[][] genSpriteOutline() {
+
+	return genSpriteOutline(random.nextLong());
+    }
+
+    public int getGridXLength() {
+
+	return anteriorGrid.getXLength();
+    }
+
+    public int getGridYLength() {
+
+	return anteriorGrid.getYLength();
+    }    
 }
