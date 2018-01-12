@@ -1,7 +1,6 @@
 package com.gmail.laurencewarne.artgenerator.spriteoutline;
 
-import java.lang.reflect.Field;
-import java.lang.reflect.Modifier;
+import java.util.Arrays;
 
 import org.junit.Test;
 import org.junit.Before;
@@ -30,23 +29,22 @@ public class EnumSpriteOutlineGeneratorTest {
 	    new ArrayListCellGrid<>(10, 10, ALWAYS_EMPTY);
 	ICellGrid<EnumSpriteOutlineGenerator.CellState> grid2 =
 	    new ArrayListCellGrid<>(10, 50, ALWAYS_FILLED);
-	gen1 = new EnumSpriteOutlineGenerator(grid1);
-	gen2 = new EnumSpriteOutlineGenerator(grid2);
+	gen1 = new EnumSpriteOutlineGenerator(grid1, 13423L);
+	gen2 = new EnumSpriteOutlineGenerator(grid2, 31435435432L);
 	// Make the protected method genBaseGrid public so we can test it
-	Field f = EnumSpriteOutlineGenerator.class;
     }
 
     @Test
     public void testCellValuesAreDefault() {
 
-	for ( int i = 0; i < gen1.getGridYLength(); i++ ){
-	    for ( int j = 0; j < gen1.getGridXLength(); j++ ){
+	for ( int i = 0; i < gen1.getYLengthOfOutline(); i++ ){
+	    for ( int j = 0; j < gen1.getXLengthOfOutline(); j++ ){
 		CellCoordinate coord = new CellCoordinate(j, i);
 		assertEquals(ALWAYS_EMPTY, gen1.getCellStateAt(coord));
 	    }
 	}
-	for ( int i = 0; i < gen2.getGridYLength(); i++ ){
-	    for ( int j = 0; j < gen2.getGridXLength(); j++ ){
+	for ( int i = 0; i < gen2.getYLengthOfOutline(); i++ ){
+	    for ( int j = 0; j < gen2.getXLengthOfOutline(); j++ ){
 		CellCoordinate coord = new CellCoordinate(j, i);
 		assertEquals(ALWAYS_FILLED, gen2.getCellStateAt(coord));
 	    }
@@ -73,4 +71,97 @@ public class EnumSpriteOutlineGeneratorTest {
 	assertEquals(gen2.getCellStateAt(new CellCoordinate(0, 1)), ALWAYS_EMPTY);
 	assertEquals(gen2.getCellStateAt(new CellCoordinate(6, 46)), VARIED);	
     }
+
+    @Test
+    public void testOutputGridCorrectFromInitialGrid() {
+
+	boolean[][] output1 = gen1.genSpriteOutline();
+	boolean[][] output2 = gen2.genSpriteOutline();
+	for ( boolean[] arr : output1 ){
+	    for ( boolean value : arr ){
+		assertEquals(value, Boolean.valueOf(false));
+	    }
+	}
+	for ( boolean[] arr : output2 ){
+	    for ( boolean value : arr ){
+		assertEquals(value, Boolean.valueOf(true));
+	    }
+	}
+    }
+
+    @Test
+    public void testOutputGridCorrectFromNonRandomChangedGrid() {
+
+	for ( int i = 0; i < gen1.getYLengthOfOutline(); i++ ){
+	    for ( int j = 0; j < gen1.getXLengthOfOutline()/2; j++ ){
+		gen1.setCellStateAt(new CellCoordinate(j, i), ALWAYS_FILLED);
+	    }
+	}
+	boolean[][] output = gen1.genSpriteOutline();
+	for ( int i = 0; i < gen1.getYLengthOfOutline(); i++ ){
+	    for ( int j = 0; j < gen1.getXLengthOfOutline(); j++ ){
+		if ( j < gen1.getXLengthOfOutline()/2 ){
+		    assertEquals(output[i][j], true);
+		}
+		else {
+		    assertEquals(output[i][j], false);
+		}
+	    }
+	}
+    }
+
+    @Test
+    public void testOutputGridCorrectFromRandomChangedGrid() {
+
+	for ( int i = 0; i < gen1.getYLengthOfOutline(); i++ ){
+	    for ( int j = 0; j < gen1.getXLengthOfOutline()/2; j++ ){
+		if ( i == j ){
+		    gen1.setCellStateAt(new CellCoordinate(j, i), VARIED);
+		}
+	    }
+	}
+	// We test the varied coordinates are not null.
+	boolean[][] output = gen1.genSpriteOutline();
+	for ( int i = 0; i < gen1.getYLengthOfOutline(); i++ ){
+	    for ( int j = 0; j < gen1.getXLengthOfOutline(); j++ ){
+		if ( i == j ){
+		    assertNotEquals(output[i][j], null);
+		}
+		else {
+		    assertEquals(output[i][j], false);
+		}
+	    }
+	}
+    }
+
+    @Test
+    public void testOutputGridSameForSameSeed() {
+
+	for ( int i = 0; i < gen1.getYLengthOfOutline(); i++ ){
+	    for ( int j = 0; j < gen1.getXLengthOfOutline()/2; j++ ){
+		if ( i == j ){
+		    gen1.setCellStateAt(new CellCoordinate(j, i), VARIED);
+		}
+	    }
+	}
+	boolean[][] output1 = gen1.genSpriteOutline();
+	boolean[][] output2 = gen1.genSpriteOutline();
+	assertEquals(Arrays.deepEquals(output1, output2), true);
+    }
+
+    @Test
+    public void testOutputGridDifferentForDifferentSeed() {
+
+	for ( int i = 0; i < gen1.getYLengthOfOutline(); i++ ){
+	    for ( int j = 0; j < gen1.getXLengthOfOutline()/2; j++ ){
+		if ( i == j ){
+		    gen1.setCellStateAt(new CellCoordinate(j, i), VARIED);
+		}
+	    }
+	}
+	boolean[][] output1 = gen1.genSpriteOutline();
+	gen1.setSeed(gen1.getSeed() + 1);
+	boolean[][] output2 = gen2.genSpriteOutline();
+	assertNotEquals(Arrays.deepEquals(output1, output2), true);
+    }    
 }

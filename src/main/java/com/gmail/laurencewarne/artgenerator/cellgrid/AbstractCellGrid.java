@@ -11,8 +11,12 @@ public abstract class AbstractCellGrid<E> implements ICellGrid<E> {
     /** The number of rows in the grid. **/
     final protected int yLength;
 
-    public AbstractCellGrid( final int xLength, final int yLength ) {
+    public AbstractCellGrid( final int xLength, final int yLength ) throws IllegalArgumentException {
 
+	// Check if lengths are valid
+	if ( xLength <= 0 || yLength <= 0 ){
+	    throw new IllegalArgumentException("Lengths must be greater than zero!");
+	}
 	this.xLength = xLength;
 	this.yLength = yLength;
     }

@@ -15,9 +15,22 @@ public class ArrayListCellGridTest {
     @Before
     public void setUp() {
 
-	intCellGrid1 = new ArrayListCellGrid<Integer>(10, 10, 0);
-	intCellGrid2 = new ArrayListCellGrid<Integer>(1, 1, 0);
+	intCellGrid1 = new ArrayListCellGrid<>(10, 10, 0);
+	intCellGrid2 = new ArrayListCellGrid<>(1, 1, 0);
     }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void testConstructorDoesNotAcceptNegativeLengths() {
+
+	ArrayListCellGrid<Integer> invalidGrid = new ArrayListCellGrid<>(-5, -1, 1);
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void testConstructorDoesNotAcceptZeroLengths() {
+
+	ArrayListCellGrid<Integer> invalidGrid = new ArrayListCellGrid<>(0, 5, 1);
+    }
+    
 
     @Test
     public void testAllElementsAreDefault() {

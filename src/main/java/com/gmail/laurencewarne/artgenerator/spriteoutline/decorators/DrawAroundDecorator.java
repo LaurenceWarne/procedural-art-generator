@@ -1,13 +1,19 @@
 package com.gmail.laurencewarne.artgenerator.spriteoutline.decorators;
 
+import java.util.List;
+import java.util.Set;
+import java.util.HashSet;
+
 import com.gmail.laurencewarne.artgenerator.spriteoutline.ISpriteOutlineGenerator;
+import com.gmail.laurencewarne.artgenerator.cellgrid.CellCoordinate;
+import com.gmail.laurencewarne.artgenerator.cellgrid.ICellGrid;
 
 
-public DrawAroundDecorator extends SpriteOutlineDecorator implements ISpriteOutlineGenerator {
+public class DrawAroundDecorator extends SpriteOutlineDecorator implements ISpriteOutlineGenerator {
 
-    private final Set<CellCoordinate> alwaysFullCoords, alwaysEmptyCoords;
+    protected final Set<CellCoordinate> alwaysFullCoords, alwaysEmptyCoords;
 
-    public DrawAroundDecorator( final ISpriteOutlineGenerator spriteOutlineGenerator, final Set<CellCoordinate> alwaysFullCoords, final Set<CellCoordinate> alwaysEmptyCoords) {
+    public DrawAroundDecorator( final ISpriteOutlineGenerator spriteOutlineGenerator, final Set<CellCoordinate> alwaysFullCoords, final Set<CellCoordinate> alwaysEmptyCoords ) {
 
 	super(spriteOutlineGenerator);
 	this.alwaysFullCoords = alwaysFullCoords;
@@ -16,22 +22,34 @@ public DrawAroundDecorator extends SpriteOutlineDecorator implements ISpriteOutl
 
     public DrawAroundDecorator( final ISpriteOutlineGenerator spriteOutlineGenerator ) {
 
-	DrawAroundDecorator(spriteOutlineGenerator, new HashSet<CellCoordinate>(), new HashSet<CellCoordinate());
+	this(spriteOutlineGenerator, new HashSet<CellCoordinate>(), new HashSet<CellCoordinate>());
     }
 
-    public void addAlwaysFullCoord( CellCoordinate coord ) {
+    public void addAlwaysFullCoord( final CellCoordinate coord ) throws IllegalArgumentException {
 
-	alwaysFullCoords.add(coord);
+	if ( !isValidCoord(coord) ){
+	    throw new IllegalArgumentException("Coordinate does not lie in the grid!");
+	}
+	else {
+	    alwaysFullCoords.add(coord);
+	}
     }
 
-    public void addAlwaysEmptyCoord( CellCoordinate coord ) {
+    public void addAlwaysEmptyCoord( final CellCoordinate coord ) throws IllegalArgumentException {
 
-	alwaysEmptyCoords.add(coord);
+	if ( !isValidCoord(coord) ){
+	    throw new IllegalArgumentException("Coordinate does not lie in the grid!");
+	}
+	else {
+	    alwaysEmptyCoords.add(coord);
+	}
     }    
 
     public boolean[][] genSpriteOutline() {
 
-	ICellGrid<Boolean> baseGrid = super.genSpriteOutline();
+	// change
+	ICellGrid<Boolean> baseGrid = null;//super.genSpriteOutline();
+	int xLength = getXLengthOfOutline(), yLength = getYLengthOfOutline();
 	boolean[][] spriteArray = new boolean[yLength][xLength];
 	for ( int i = 0; i < yLength; i++ ){
 	    for ( int j = 0; j < xLength; j++ ){
