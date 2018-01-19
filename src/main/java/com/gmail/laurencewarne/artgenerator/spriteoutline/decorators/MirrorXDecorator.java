@@ -1,6 +1,9 @@
 package com.gmail.laurencewarne.artgenerator.spriteoutline.decorators;
 
 import com.gmail.laurencewarne.artgenerator.spriteoutline.ISpriteOutlineGenerator;
+import com.gmail.laurencewarne.artgenerator.cellgrid.ICellGrid;
+import com.gmail.laurencewarne.artgenerator.cellgrid.ArrayListCellGrid;
+import com.gmail.laurencewarne.artgenerator.cellgrid.CellCoordinate;
 
 
 public class MirrorXDecorator extends SpriteOutlineDecorator implements ISpriteOutlineGenerator {
@@ -18,21 +21,24 @@ public class MirrorXDecorator extends SpriteOutlineDecorator implements ISpriteO
     }
     
     @Override
-    public boolean[][] genSpriteOutline() {
+    public ICellGrid<Boolean> genSpriteOutlineAsCellGrid() {
 
-	boolean[][] baseGrid = super.genSpriteOutline();
-	int yLen = baseGrid.length, xLen = baseGrid[0].length;
-	boolean[][] decGrid = new boolean[yLen][xLen * 2];
+	ICellGrid<Boolean> baseGrid = super.genSpriteOutlineAsCellGrid();
+	int yLen = baseGrid.getYLength(), xLen = baseGrid.getXLength();
+	ICellGrid<Boolean> decGrid = new ArrayListCellGrid(xLen*2, yLen, false);
 	for ( int i = 0; i < yLen; i++ ){
 	    for ( int j = 0; j < xLen*2; j++ ){
+		CellCoordinate coord = new CellCoordinate(j, i), baseCoord;
 		// We transform this function of j to produce the reflections
 		float jFunc = Math.abs(xLen - j - 0.5f);
 		if ( reflectLeft ){
-		    decGrid[i][j] = baseGrid[i][Math.round(jFunc - 0.5f)];
+		    baseCoord = new CellCoordinate(Math.round(jFunc - 0.5f), i);
 		}
 		else {  // We reflect right
-		    decGrid[i][j] = baseGrid[i][Math.round(-jFunc + xLen - 0.5f)];
-		}		    
+		    baseCoord =
+			new CellCoordinate(Math.round(-jFunc + xLen - 0.5f), i);
+		}
+		decGrid.setValueAt(coord, baseGrid.getValueAt(baseCoord));
 	    }
 	}
 	return decGrid;

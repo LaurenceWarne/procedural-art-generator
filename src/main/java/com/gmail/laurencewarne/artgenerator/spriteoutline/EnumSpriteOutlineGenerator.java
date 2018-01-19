@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.gmail.laurencewarne.artgenerator.cellgrid.ICellGrid;
 import com.gmail.laurencewarne.artgenerator.cellgrid.ArrayListCellGrid;
+import com.gmail.laurencewarne.artgenerator.cellgrid.ArrayListCellGrid;
 import com.gmail.laurencewarne.artgenerator.cellgrid.CellCoordinate;
 
 
@@ -74,27 +75,26 @@ public class EnumSpriteOutlineGenerator extends AbstractSpriteOutlineGenerator i
     }
 
     @Override
-    public boolean[][] genSpriteOutline() {
+    public ICellGrid<Boolean> genSpriteOutlineAsCellGrid() {
 
 	Random random = new Random(seed);
 	int xLength = getXLengthOfOutline(), yLength = getYLengthOfOutline();
-	boolean[][] spriteOutline = new boolean[yLength][xLength];
+	ICellGrid<Boolean> spriteOutline = new ArrayListCellGrid(xLength, yLength, false);
 	for ( int i = 0; i < yLength; i++ ){
 	    for ( int j = 0; j < xLength; j++ ){
 		CellCoordinate coord = new CellCoordinate(j, i);
 		CellState state = anteriorGrid.getValueAt(coord);
 		if ( state.equals(CellState.ALWAYS_FILLED) ){
-		    spriteOutline[i][j] = true;
+		    spriteOutline.setValueAt(coord, true);
 		}
 		else if ( state.equals(CellState.ALWAYS_EMPTY) ){
-		    spriteOutline[i][j] = false;
+		    spriteOutline.setValueAt(coord, false);
 		}
 		else {
-		    spriteOutline[i][j] = random.nextBoolean();
+		    spriteOutline.setValueAt(coord, random.nextBoolean());
 		}
 	    }
 	}
-	
 	return spriteOutline;
     }
 

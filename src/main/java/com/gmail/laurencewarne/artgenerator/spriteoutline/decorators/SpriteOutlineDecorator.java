@@ -2,6 +2,7 @@ package com.gmail.laurencewarne.artgenerator.spriteoutline.decorators;
 
 import com.gmail.laurencewarne.artgenerator.spriteoutline.ISpriteOutlineGenerator;
 import com.gmail.laurencewarne.artgenerator.spriteoutline.AbstractSpriteOutlineGenerator;
+import com.gmail.laurencewarne.artgenerator.cellgrid.ICellGrid;
 
 
 public abstract class SpriteOutlineDecorator extends AbstractSpriteOutlineGenerator implements ISpriteOutlineGenerator {
@@ -13,11 +14,19 @@ public abstract class SpriteOutlineDecorator extends AbstractSpriteOutlineGenera
     }
 
     @Override
+    public ICellGrid<Boolean> genSpriteOutlineAsCellGrid() {
+
+	return spriteOutlineGenerator.genSpriteOutlineAsCellGrid();
+    }
+    
+    /**
+    @Override
     public boolean[][] genSpriteOutline() {
 
 	return spriteOutlineGenerator.genSpriteOutline();
     }
-
+    */
+    
     @Override
     public int getXLengthOfOutline() {
 

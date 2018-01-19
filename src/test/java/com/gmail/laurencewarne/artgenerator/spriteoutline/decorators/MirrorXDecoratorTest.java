@@ -73,7 +73,7 @@ public class MirrorXDecoratorTest {
 
 	boolean[][] output1 = gen3.genSpriteOutline();
 	boolean[][] output2 = gen4.genSpriteOutline();	
-	// original array   = new boolean[] {true, true, false};
+	//undecorated array = new boolean[] {true, true, false};
 	boolean[] leftArray = new boolean[] {false, true, true, true, true, false};
 	boolean[] rightArray = new boolean[] {true, true, false, false, true, true};
 	for ( boolean[] arr : output1 ){
