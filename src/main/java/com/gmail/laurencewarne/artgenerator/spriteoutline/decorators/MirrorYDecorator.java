@@ -33,6 +33,7 @@ public class MirrorYDecorator extends SpriteOutlineDecorator implements ISpriteO
 	    else {  // We reflect up
 		transIFunc = Math.round(-iFunc + yLen - 0.5f);
 	    }
+	    // Y Coordinates are rows so whole rows need to be set in the new grid.
 	    for ( int j = 0; j < xLen; j++ ){
 		CellCoordinate transCoord = new CellCoordinate(j, transIFunc);
 		CellCoordinate newCoord = new CellCoordinate(j, i);

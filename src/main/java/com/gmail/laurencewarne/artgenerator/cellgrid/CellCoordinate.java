@@ -5,7 +5,7 @@ import java.util.Arrays;
 /**
 An immutable class encapsulating a coordinate on a two dimensional plane.
  */
-public class CellCoordinate {
+public final class CellCoordinate {
 
     public final int x, y;
 
