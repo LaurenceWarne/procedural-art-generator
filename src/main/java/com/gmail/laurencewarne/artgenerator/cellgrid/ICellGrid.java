@@ -101,7 +101,6 @@ public interface ICellGrid<E> {
      */
     int getXLength();
 
-
     /**
        Returns The length in y of the cell grid, aka the number of 'rows' in the
        grid.

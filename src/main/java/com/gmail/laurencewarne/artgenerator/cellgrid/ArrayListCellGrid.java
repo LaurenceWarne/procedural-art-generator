@@ -67,7 +67,7 @@ public class ArrayListCellGrid<E> extends AbstractCellGrid<E> implements ICellGr
 	for ( int i = 0; i < yLength; i++ ){
 	    for ( int j = 0; j < xLength; j++ ){
 		if ( arrayGrid.get(i).get(j).equals(value) )
-		    equalValues.add(new CellCoordinate(i, j));
+		    equalValues.add(new CellCoordinate(j, i));
 	    }
 	}
 	return equalValues;
