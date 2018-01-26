@@ -11,22 +11,34 @@ import com.gmail.laurencewarne.artgenerator.cellgrid.ICellGrid;
 import com.gmail.laurencewarne.artgenerator.cellgrid.ArrayListCellGrid;
 
 /**
-This decorator implementation "draws around" the 2D boolean array(visualised as a table)
- representing a sprite
-outline. The "filled"(true) values are set to false and their "touching" are set
-to true.
+<pre>
+This decorator implementation "draws around" the 2D boolean array(visualised as a 
+table) representing a sprite outline. The "filled"(true) values are set to false and
+their "touching" are set to true.
 
 If a value in the decorated array is true, then it is set to false in the new array.
-If the value is false, it's adjacent values(including diagonals) are searched, and if at
-least one is true, then the false value is set to true in the new array. Values which
-are always "filled"(true) and always "empty"(false) can be specified. These values are
-changed retrospecively after the previous step has been completed for all elements in the
-array.
+If the value is false, it's adjacent values(excluding diagonals) are searched, and 
+if at least one is true, then the false value is set to true in the new array.
+Values which are always "filled"(true) and always "empty"(false) can be specified.
+These values are changed retrospecively after the previous step has been completed
+for all elements in the grid/array.
+</pre>
  */
 public class DrawAroundDecorator extends SpriteOutlineDecorator implements ISpriteOutlineGenerator {
 
     protected final Set<CellCoordinate> alwaysFullCoords, alwaysEmptyCoords;
 
+    /**
+       Constructs a draw around decorator by decorating the given 
+       spriteOutlineGenerator. Coordinates of cells set to be always filled and 
+       always empty can also be specified.
+
+       @param spriteOutlineGenerator the ISpriteOutlineGenerator to be decorated
+       @param alwaysFullCoords a set of coordinates to be always set to true in the
+       output grid
+       @param alwaysEmptyCoords a set of coordinates to be always set to false in the
+       output grid
+     */
     public DrawAroundDecorator( final ISpriteOutlineGenerator spriteOutlineGenerator, final Set<CellCoordinate> alwaysFullCoords, final Set<CellCoordinate> alwaysEmptyCoords ) {
 
 	super(spriteOutlineGenerator);
@@ -34,6 +46,12 @@ public class DrawAroundDecorator extends SpriteOutlineDecorator implements ISpri
 	this.alwaysEmptyCoords = alwaysEmptyCoords;
     }
 
+    /**
+       Constructs a draw around decorator by decorating the given 
+       spriteOutlineGenerator.
+
+       @param spriteOutlineGenerator the ISpriteOutlineGenerator to be decorated
+     */
     public DrawAroundDecorator( final ISpriteOutlineGenerator spriteOutlineGenerator ) {
 
 	this(spriteOutlineGenerator, new HashSet<CellCoordinate>(), new HashSet<CellCoordinate>());
@@ -124,7 +142,6 @@ public class DrawAroundDecorator extends SpriteOutlineDecorator implements ISpri
 	}
     }
     
-
     public ICellGrid<Boolean> genSpriteOutlineAsCellGrid() {
 
 	ICellGrid<Boolean> wrappedGrid = super.genSpriteOutlineAsCellGrid();

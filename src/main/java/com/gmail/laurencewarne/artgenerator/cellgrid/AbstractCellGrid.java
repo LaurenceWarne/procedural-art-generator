@@ -27,8 +27,8 @@ public abstract class AbstractCellGrid<E> implements ICellGrid<E> {
        and x and y are less than the x and y length of the grid respectively. x and
        y must also be integers but this is enforced by the CellCoordinate class.
 
-       @param  coord the coordinate whose existence in the grid is to be found.
-       @return whether the specified coordinate is in the grid.
+       @param  coord the coordinate whose existence in the grid is to be found
+       @return whether the specified coordinate is in the grid
      */
     public boolean isValidCoord( CellCoordinate coord ) {
 

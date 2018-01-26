@@ -10,14 +10,21 @@ import com.gmail.laurencewarne.artgenerator.cellgrid.CellCoordinate;
 
 
 /**
+<pre>
 An implementation of the ISpriteOutlineGenerator interface which uses an
 implementation of an ICellGrid to generate sprite outlines.
 
-This implementation uses a grids, whose rows and columns are analogous to the
- rectangular output array, to produce said output 2D boolean array. The first 
-'anterior' grid is passed to the class' constructor. Its cells consist of enum
+This implementation uses a grid, whose rows and columns are analogous to the 
+rectangular output grid/array, to produce said output 2D boolean grid/array. The 
+first 'anterior' grid is passed to the class' constructor. Its cells consist of enum
 values which in addition to a random seed determine the output grid whose cells
 consist of purely boolean values.
+
+ALWAYS_FILLED cells in anteriorGrid are always true cells in the base grid. 
+ALWAYS_EMPTY cells in anteriorGrid are always false cells in the base grid, VARIED 
+cells can be either and are determined by a seed. An EnumSpriteOutlineGenerator
+with the same seed an anterior grid will always produce the same output grid.
+</pre>
  */
 public class EnumSpriteOutlineGenerator extends AbstractSpriteOutlineGenerator implements ISpriteOutlineGenerator {
 
@@ -35,6 +42,14 @@ public class EnumSpriteOutlineGenerator extends AbstractSpriteOutlineGenerator i
     protected final ICellGrid<CellState> anteriorGrid;
     protected long seed;
     
+    /**
+      Constructs a new instance of EnumSpriteOutlineGenerator based on an ICellGrid
+      object and a seed.
+      
+      @param anteriorGrid an ICellGrid used to generate the sprite outline
+      @param seed the seed used to create a Random object which will be used to
+      generate random numbers for cells marked as VARIED in the anteriorGrid
+     */
     public EnumSpriteOutlineGenerator( final ICellGrid<CellState> anteriorGrid, final long seed ) {
 
 	this.anteriorGrid = anteriorGrid;
@@ -45,8 +60,8 @@ public class EnumSpriteOutlineGenerator extends AbstractSpriteOutlineGenerator i
        Sets the cell at the specified coordinate in the anterior grid to the 
        specified value.
 
-       @param coord the coordinate of the cell to be changed.
-       @param value the cell at the coordinate is to be changed to.
+       @param coord the coordinate of the cell to be changed
+       @param value the cell at the coordinate is to be changed to
      */
     public void setCellStateAt( final CellCoordinate coord, final CellState value ) {
 
@@ -56,8 +71,8 @@ public class EnumSpriteOutlineGenerator extends AbstractSpriteOutlineGenerator i
     /**
        Returns the cell at the specified coordinate in the anterior grid.
 
-       @param  coord the coordinate of the cell to be returned.
-       @return value of the cell at the coordinate.
+       @param  coord the coordinate of the cell to be returned
+       @return value of the cell at the coordinate
      */
     public CellState getCellStateAt( final CellCoordinate coord ) {
 

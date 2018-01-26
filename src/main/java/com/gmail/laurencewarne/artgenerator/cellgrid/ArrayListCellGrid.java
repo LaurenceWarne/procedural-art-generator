@@ -6,12 +6,25 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 
 
+/**
+An implementation of the ICellGrid interface which uses an Arraylist to store the 
+elements of the grid.
+ */
 public class ArrayListCellGrid<E> extends AbstractCellGrid<E> implements ICellGrid<E> {
 
     /** A nested list that this implementation of ICellGrid wraps. **/
     protected final List<List<E>> arrayGrid;
 
-    public ArrayListCellGrid( final int xLength, final int yLength, final E defaultValue ) {
+    /**
+       Constructs an ArrayCellGrid with length xLength in x (columns), length yLength
+       in y (rows) and fills all of the cells with the value given by defaultValue.
+
+       @param xLength the length in x of the grid
+       @param yLength the length in y of the grid
+       @param defaultValue the value to set all of the initial values in the grid to
+       @throws IllegalArgumentException if xLength or yLength are less than 1
+     */
+    public ArrayListCellGrid( final int xLength, final int yLength, final E defaultValue ) throws IllegalArgumentException {
 
 	super(xLength, yLength);
 	arrayGrid = new ArrayList<List<E>>();

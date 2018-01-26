@@ -7,6 +7,7 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 
 import com.gmail.laurencewarne.artgenerator.cellgrid.ICellGrid;
 import com.gmail.laurencewarne.artgenerator.cellgrid.CellCoordinate;
@@ -49,19 +50,19 @@ public class ConnectedCoordinateCollection implements Iterable<Set<CellCoordinat
 	}
     }
 
-    public ConnectedCoordinateCollection( final ICellGrid<Boolean> uncolouredSpriteGrid ) {
-	this(uncolouredSpriteGrid, false);
+    public Set<CellCoordinate> getValidCellsConnectedTo( final CellCoordinate coord ) {
+
+	for ( Set<CellCoordinate> coordSet : connectedCoordinateSets ){
+	    if ( coordSet.contains(coord) ){
+		Set<CellCoordinate> copy = new HashSet<>(coordSet);
+		copy.remove(coord);
+		return Collections.unmodifiableSet(copy);
+	    }
+	}
+	throw new IllegalArgumentException("Coordinate not found.");
     }
 
-
-    public Set<CellCoordinate> getCellsConnectedTo( final CellCoordinate coord )
-	throws IllegalArgumentException {
-
-	// return an immutable set
-	return null;
-    }
-
-    public boolean isCellOnEdge( final CellCoordinate coord ) {
+    public boolean isCellConnectedToEdge( final CellCoordinate coord ) {
 
 	return false;
     }
@@ -69,7 +70,30 @@ public class ConnectedCoordinateCollection implements Iterable<Set<CellCoordinat
     @Override
     public Iterator<Set<CellCoordinate>> iterator() {
 
-	// need anonymous class!
-	return connectedCoordinateSets.iterator();
+	// Anonymous class to prohibit removals
+	return new Iterator<Set<CellCoordinate>>() {
+
+	    private final Iterator<Set<CellCoordinate>>
+		listIter = connectedCoordinateSets.iterator();
+
+	    @Override
+	    public boolean hasNext() {
+
+		return listIter.hasNext();
+	    }
+
+	    @Override
+	    public Set<CellCoordinate> next() {
+
+		return listIter.next();
+	    }
+
+	    @Override
+	    public void remove() {
+		
+		throw new UnsupportedOperationException("Removal not permitted");
+	    }
+	    
+	};
     }
 }

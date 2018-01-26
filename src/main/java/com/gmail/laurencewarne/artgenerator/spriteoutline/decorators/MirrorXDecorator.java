@@ -6,6 +6,42 @@ import com.gmail.laurencewarne.artgenerator.cellgrid.ArrayListCellGrid;
 import com.gmail.laurencewarne.artgenerator.cellgrid.CellCoordinate;
 
 
+/**
+Implementation of ISpriteOutlineGenerator used as a decorator to mirror the output of
+another ISpriteOutlineGenerator instance either left or right.
+
+<pre>
+For example if we were to decorate the following grid:
+
+       |---|---|---|
+       |   |   | X |
+       |---|---|---|
+       |   |   | X |
+       |---|---|---|
+       | X | X | X |
+       |---|---|---|
+
+And reflect it right the ouput would be:
+
+       |---|---|---|---|---|---|
+       |   |   | X | X |   |   |
+       |---|---|---|---|---|---|
+       |   |   | X | X |   |   |
+       |---|---|---|---|---|---|
+       | X | X | X | X | X | X |
+       |---|---|---|---|---|---|
+
+And if we reflected it left the output would be:
+
+       |---|---|---|---|---|---|
+       | X |   |   |   |   | X |
+       |---|---|---|---|---|---|
+       | X |   |   |   |   | X |
+       |---|---|---|---|---|---|
+       | X | X | X | X | X | X |
+       |---|---|---|---|---|---|
+</pre>
+ */
 public class MirrorXDecorator extends SpriteOutlineDecorator implements ISpriteOutlineGenerator {
 
     /** 
@@ -14,6 +50,14 @@ public class MirrorXDecorator extends SpriteOutlineDecorator implements ISpriteO
     */
     protected boolean reflectLeft;
 
+    /**
+       Constructs a MirrorXDecorator decorating the specified spriteOutlineGenerator,
+       reflecting the outuput of the decorated object left or right depending on the
+       value of reflectLeft.
+
+       @param spriteOutlineGenerator the ISpriteOutlineGenerator to be decorated
+       @param reflectLeft whether the decorator should reflect left or right
+     */
     public MirrorXDecorator( final ISpriteOutlineGenerator spriteOutlineGenerator, final boolean reflectLeft ) {
 	
 	super(spriteOutlineGenerator);

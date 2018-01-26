@@ -18,7 +18,8 @@ public interface ICellGrid<E> {
        
        The cells marked with an X constitute the Moore neighbourhood of the centre
        blank cell:
-
+       
+       <pre>
        |---|---|---|
        | X | X | X |
        |---|---|---|
@@ -26,12 +27,12 @@ public interface ICellGrid<E> {
        |---|---|---|
        | X | X | X |
        |---|---|---|
-
+       </pre>
        
-       @param  coord coordinate of cell whose Moore neighbours are to be returned.
-       @return a List of coordinates of Moore neighbours of the cell.
+       @param  coord coordinate of cell whose Moore neighbours are to be returned
+       @return a List of coordinates of Moore neighbours of the cell
        @see <a href="https://en.wikipedia.org/wiki/Moore_neighborhood">https://en.wikipedia.org/wiki/Moore_neighborhood</a>
-       @throws IllegalArgumentException If the coordinate is out of bounds of the grid.
+       @throws IllegalArgumentException If the coordinate is out of bounds of the grid
      */
     List<CellCoordinate> getCoordsOfMooreNeighbours( CellCoordinate coord )
 	throws IllegalArgumentException;
@@ -43,7 +44,8 @@ public interface ICellGrid<E> {
        
        The cells marked with an X constitute the Neumann neighbourhood of the centre
        blank cell:
-
+       
+       <pre>
        |---|---|---|
        |   | X |   |
        |---|---|---|
@@ -51,12 +53,12 @@ public interface ICellGrid<E> {
        |---|---|---|
        |   | X |   |
        |---|---|---|
-
+       </pre>
        
-       @param  coord coordinate of cell whose Neumann neighbours are to be returned.
-       @return a List of coordinates of Neumann neighbours of the cell.
-       @see <a href="https://en.wikipedia.org/wiki/Von_Neumann_neighborhood">https://en.wikipedia.org/wiki/Moore_neighborhood</a>
-       @throws IllegalArgumentException If the coordinate is out of bounds of the grid.
+       @param  coord coordinate of cell whose Neumann neighbours are to be returned
+       @return a List of coordinates of Neumann neighbours of the cell
+       @see <a href="https://en.wikipedia.org/wiki/Von_Neumann_neighborhood">https://en.wikipedia.org/wiki/Von_Neumann_neighborhood</a>
+       @throws IllegalArgumentException If the coordinate is out of bounds of the grid
      */    
     List<CellCoordinate> getCoordsOfNeumannNeighbours( CellCoordinate coord )
 	throws IllegalArgumentException;
@@ -65,10 +67,10 @@ public interface ICellGrid<E> {
        Returns a List of coordinates which point to cells whose values are the same
        as the specified value.
 
-       @param  value the value of which the desired cells should equal.
+       @param  value the value of which the desired cells should equal
        @return a List of coordinates which point to cells whose values are the same
-       as the specified value.
-       @throws IllegalArgumentException If the coordinate is out of bounds of the grid.
+       as the specified value
+       @throws IllegalArgumentException If the coordinate is out of bounds of the grid
      */
     List<CellCoordinate> getCoordsOfCellsEqualTo( E value )
 	throws IllegalArgumentException;
@@ -76,9 +78,9 @@ public interface ICellGrid<E> {
     /**
        Returns the (value in the) cell of the specified coordinate.
 
-       @param  coord the coordinate of the cell to be returned.
-       @return returns the cell at the specified coordinate.
-       @throws IllegalArgumentException If the coordinate is out of bounds of the grid.
+       @param  coord the coordinate of the cell to be returned
+       @return returns the cell at the specified coordinate
+       @throws IllegalArgumentException If the coordinate is out of bounds of the grid
      */
     E getValueAt( CellCoordinate coord )
 	throws IllegalArgumentException;
@@ -86,9 +88,9 @@ public interface ICellGrid<E> {
     /**
        Sets the value at the specified coordinate.
 
-       @param  coord the coordinate of the cell to be set.
-       @param  value the new value to set the cell to.
-       @throws IllegalArgumentException If the coordinate is out of bounds of the grid.
+       @param  coord the coordinate of the cell to be set
+       @param  value the new value to set the cell to
+       @throws IllegalArgumentException If the coordinate is out of bounds of the grid
      */
     void setValueAt( CellCoordinate coord, E value )
 	throws IllegalArgumentException;
@@ -97,7 +99,7 @@ public interface ICellGrid<E> {
        Returns The length in x of the cell grid, aka the number of 'columns' in
        the grid.
        
-       @return the length in x of the grid.
+       @return the length in x of the grid
      */
     int getXLength();
 
@@ -105,7 +107,7 @@ public interface ICellGrid<E> {
        Returns The length in y of the cell grid, aka the number of 'rows' in the
        grid.
        
-       @return the length in y of the grid.
+       @return the length in y of the grid
      */
     int getYLength();
 }

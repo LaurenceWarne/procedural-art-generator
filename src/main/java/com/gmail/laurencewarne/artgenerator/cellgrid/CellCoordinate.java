@@ -9,6 +9,13 @@ public final class CellCoordinate {
 
     public final int x, y;
 
+    /**
+       Constructs a CellCoordinate with x and y values set to the specified x and
+       y values.
+
+       @param x the x coordinate of the CellCoordinate
+       @param y the y coordinate of the CellCoordinate
+     */
     public CellCoordinate( final int x, final int y ) {
 
 	this.x = x;
