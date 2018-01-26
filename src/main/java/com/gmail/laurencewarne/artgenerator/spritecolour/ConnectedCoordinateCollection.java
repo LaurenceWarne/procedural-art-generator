@@ -16,36 +16,43 @@ public class ConnectedCoordinateCollection implements Iterable<Set<CellCoordinat
 
     private final ICellGrid<Boolean> uncolouredSpriteGrid;
     private final List<Set<CellCoordinate>> connectedCoordinateSets;
+    private final boolean connectFalseValues;
 
-    public ConnectedCoordinateCollection( final ICellGrid<Boolean> uncolouredSpriteGrid ) {
+    public ConnectedCoordinateCollection( final ICellGrid<Boolean> uncolouredSpriteGrid, final boolean connectFalseValues ) {
 
 	this.uncolouredSpriteGrid = uncolouredSpriteGrid;
+	this.connectFalseValues = connectFalseValues;
 	connectedCoordinateSets = new ArrayList<>();
 	
 	// Now we extract the connected coordinates from the grid using a bfs
-	List<CellCoordinate> trueCells = uncolouredSpriteGrid.
-	    getCoordsOfCellsEqualTo(true);
-	while ( !trueCells.isEmpty() ){
+	List<CellCoordinate> matchedCells = uncolouredSpriteGrid.
+	    getCoordsOfCellsEqualTo(connectFalseValues);
+	while ( !matchedCells.isEmpty() ){
 	    // Each iteration of this loop creates a new set
-	    CellCoordinate trueCell = trueCells.remove(0);
-	    Set<CellCoordinate> connectedSet = new HashSet<>(Arrays.asList(trueCell));
+	    CellCoordinate matchedCell = matchedCells.remove(0);
+	    Set<CellCoordinate> connectedSet = new HashSet<>(Arrays.asList(matchedCell));
 	    LinkedList<CellCoordinate> connectedCells = new LinkedList<>
-		(uncolouredSpriteGrid.getCoordsOfNeumannNeighbours(trueCell));
+		(uncolouredSpriteGrid.getCoordsOfNeumannNeighbours(matchedCell));
 	    while ( !connectedCells.isEmpty() ) {
 		// Each iteration of this loop can add an element to the newly
 		// created set
 		CellCoordinate connectedCell = connectedCells.remove();
-		if ( uncolouredSpriteGrid.getValueAt(connectedCell) == true &&
+		if ( uncolouredSpriteGrid.getValueAt(connectedCell) == connectFalseValues &&
 		       !connectedSet.contains(connectedCell) ) {
 		    connectedSet.add(connectedCell);
 		    connectedCells.addAll(uncolouredSpriteGrid.
 					  getCoordsOfNeumannNeighbours(connectedCell));
 		}
 	    }
-	    trueCells.removeAll(connectedSet);
+	    matchedCells.removeAll(connectedSet);
 	    connectedCoordinateSets.add(connectedSet);
 	}
     }
+
+    public ConnectedCoordinateCollection( final ICellGrid<Boolean> uncolouredSpriteGrid ) {
+	this(uncolouredSpriteGrid, false);
+    }
+
 
     public Set<CellCoordinate> getCellsConnectedTo( final CellCoordinate coord )
 	throws IllegalArgumentException {

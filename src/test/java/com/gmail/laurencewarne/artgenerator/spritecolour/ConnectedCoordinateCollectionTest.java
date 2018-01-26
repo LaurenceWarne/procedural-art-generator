@@ -28,9 +28,9 @@ public class ConnectedCoordinateCollectionTest {
 	grid2 = new ArrayListCellGrid<>(20, 30, true);
 	grid3 = new ArrayListCellGrid<>(10, 10, false);
 	grid4 = new ArrayListCellGrid<>(20, 30, false);
-	col1 = new ConnectedCoordinateCollection(grid1);
-	col2 = new ConnectedCoordinateCollection(grid2);
-	col3 = new ConnectedCoordinateCollection(grid3);
+	col1 = new ConnectedCoordinateCollection(grid1, true);
+	col2 = new ConnectedCoordinateCollection(grid2, true);
+	col3 = new ConnectedCoordinateCollection(grid3, true);
     }
 
     @Test
@@ -58,7 +58,7 @@ public class ConnectedCoordinateCollectionTest {
     public void testLoneTrueCellIsOnlyCellInOnlySet() {
 
 	grid3.setValueAt(new CellCoordinate(5, 5), true);
-	col4 = new ConnectedCoordinateCollection(grid3);
+	col4 = new ConnectedCoordinateCollection(grid3, true);
 	Iterator<Set<CellCoordinate>> iter = col4.iterator();
 	Set<CellCoordinate> fstSet = iter.next();
 	assertEquals(iter.hasNext(), false);
@@ -70,7 +70,7 @@ public class ConnectedCoordinateCollectionTest {
     public void testLoneFalseCellIsAbsentInOnlySet() {
 
 	grid1.setValueAt(new CellCoordinate(5, 5), false);
-	col4 = new ConnectedCoordinateCollection(grid1);
+	col4 = new ConnectedCoordinateCollection(grid1, true);
 	Iterator<Set<CellCoordinate>> iter = col4.iterator();
 	Set<CellCoordinate> fstSet = iter.next();
 	assertEquals(iter.hasNext(), false);
@@ -93,7 +93,7 @@ public class ConnectedCoordinateCollectionTest {
 	for ( int i = 0; i < 30; i++ ){
 	    grid2.setValueAt(new CellCoordinate(9, i), false);
 	}
-	col4 = new ConnectedCoordinateCollection(grid2);
+	col4 = new ConnectedCoordinateCollection(grid2, true);
 	Iterator<Set<CellCoordinate>> iter = col4.iterator();
 	Set<CellCoordinate> leftSet = iter.next();
 	System.out.println(leftSet.size());
@@ -131,7 +131,7 @@ public class ConnectedCoordinateCollectionTest {
 	for ( int j = 0; j < 20; j++ ){
 	    grid2.setValueAt(new CellCoordinate(j, 14), false);
 	}
-	col4 = new ConnectedCoordinateCollection(grid2);
+	col4 = new ConnectedCoordinateCollection(grid2, true);
 	Iterator<Set<CellCoordinate>> iter = col4.iterator();
 	List<Set<CellCoordinate>> sets = Arrays.
 	    asList(iter.next(), iter.next(), iter.next(), iter.next()
@@ -212,7 +212,7 @@ public class ConnectedCoordinateCollectionTest {
 
 	Set<CellCoordinate> trueCells = new HashSet<>
 	    (grid4.getCoordsOfCellsEqualTo(true));
-	col4 = new ConnectedCoordinateCollection(grid4);
+	col4 = new ConnectedCoordinateCollection(grid4, true);
 	Iterator<Set<CellCoordinate>> iter = col4.iterator();
 	List<Set<CellCoordinate>> sets = Arrays.
 	    asList(iter.next(), iter.next(), iter.next(), iter.next()
