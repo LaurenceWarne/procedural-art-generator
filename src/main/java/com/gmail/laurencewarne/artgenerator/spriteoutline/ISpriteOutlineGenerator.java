@@ -3,10 +3,8 @@ package com.gmail.laurencewarne.artgenerator.spriteoutline;
 import com.gmail.laurencewarne.artgenerator.cellgrid.ICellGrid;
 
 /**
-Users of this interface implement a method of obtaining a 2D rectangular boolean
-array representing a 'sprite outline'. The elements of the array model pixels with
-the boolean value true representing black('filled') pixels, and false representing
-white('empty') pixels.
+Users of this interface implement a method of obtaining a 2D rectangular array
+ representing a 'sprite outline'.
  */
 public interface ISpriteOutlineGenerator {
 

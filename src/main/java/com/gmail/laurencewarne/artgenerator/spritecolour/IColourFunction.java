@@ -12,12 +12,12 @@ public interface IColourFunction {
        specified point.
        
        @param  x the x coordinate of the pixel
-       @param  x the y coordinate of the pixel
+       @param  y the y coordinate of the pixel
        @throws IllegalArgumentException if either the x or y coordinates are not valid
        @throws UnsupportedOperationException if the getHSVColourAtCoordinate is not
        supported by this IColourFunction
      */
-    int[] getHSVColourAtCoordinate(int x, int y)
+    float[] getHSVColourAtCoordinate(int x, int y)
 	throws IllegalArgumentException, UnsupportedOperationException;
 
     /**
@@ -25,7 +25,7 @@ public interface IColourFunction {
        specified point.
 
        @param  x the x coordinate of the pixel
-       @param  x the y coordinate of the pixel
+       @param  y the y coordinate of the pixel
        @throws IllegalArgumentException if either the x or y coordinates are not valid
        @throws UnsupportedOperationException if the getRGBColourAtCoordinate is not
        supported by this IColourFunction

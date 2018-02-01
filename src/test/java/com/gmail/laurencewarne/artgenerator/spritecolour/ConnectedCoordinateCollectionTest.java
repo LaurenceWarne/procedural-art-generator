@@ -5,7 +5,6 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Arrays;
 import java.util.List;
-
 import org.junit.Before;
 import org.junit.Test;
 
@@ -65,6 +64,16 @@ public class ConnectedCoordinateCollectionTest {
 	assertEquals(fstSet.size(), 1);
 	assertTrue(fstSet.contains(new CellCoordinate(5, 5)));
     }
+
+    @Test
+    public void testLoneTrueCellIsConnectedToNoCells() {
+
+	grid3.setValueAt(new CellCoordinate(5, 5), true);
+	col4 = new ConnectedCoordinateCollection(grid3, true);
+	Set<CellCoordinate> connectedCells =
+	    col4.getValidCellsConnectedTo(new CellCoordinate(5, 5));
+	assertTrue(connectedCells.isEmpty());
+    }    
 
     @Test
     public void testLoneFalseCellIsAbsentInOnlySet() {
@@ -227,5 +236,66 @@ public class ConnectedCoordinateCollectionTest {
 	// Assert the sets share no elements
 	assertEquals(amalgamOfRuns.size(), 12);
 	assertEquals(amalgamOfRuns, trueCells);
+    }
+
+    public void testTrueEdgeCellsAreAllConnectedToEdge() {
+
+	grid4.setValueAt(new CellCoordinate(0, 0), true);
+	grid4.setValueAt(new CellCoordinate(0, 1), true);
+	grid4.setValueAt(new CellCoordinate(1, 0), true);
+	grid4.setValueAt(new CellCoordinate(19, 0), true);
+	grid4.setValueAt(new CellCoordinate(19, 1), true);
+	grid4.setValueAt(new CellCoordinate(18, 0), true);
+	grid4.setValueAt(new CellCoordinate(1, 29), true);
+	grid4.setValueAt(new CellCoordinate(0, 29), true);
+	grid4.setValueAt(new CellCoordinate(0, 28), true);
+	grid4.setValueAt(new CellCoordinate(19, 29), true);
+	grid4.setValueAt(new CellCoordinate(18, 29), true);
+	grid4.setValueAt(new CellCoordinate(19, 28), true);	
+
+	Set<CellCoordinate> trueCells = new HashSet<>
+	    (grid4.getCoordsOfCellsEqualTo(true));
+	col4 = new ConnectedCoordinateCollection(grid4, true);
+	Iterator<Set<CellCoordinate>> iter = col4.iterator();
+	List<Set<CellCoordinate>> sets = Arrays.
+	    asList(iter.next(), iter.next(), iter.next(), iter.next()
+		   );
+	assertEquals(iter.hasNext(), false);
+	for ( Set<CellCoordinate> set : sets ){
+	    for ( CellCoordinate coord : set ){
+		assertTrue(col4.isCellConnectedToEdge(coord));
+	    }
+	}
+    }    
+
+    @Test(expected = UnsupportedOperationException.class)
+    public void testTryingToRemoveFromIteratorGivesException() {
+
+	Iterator<Set<CellCoordinate>> iter = col1.iterator();
+	Set<CellCoordinate> fstSet = iter.next();
+	iter.remove();
+    }
+
+    @Test(expected = UnsupportedOperationException.class)
+    public void testCannotModifiableSetReturnedByGetValidCellsConnectedTo() {
+
+	Set<CellCoordinate> coordSet = col1.
+	    getValidCellsConnectedTo(new CellCoordinate(0, 0));
+	coordSet.remove(new CellCoordinate(0, 1));
+    }
+
+    @Test
+    public void testGetValidCellsConnectedToReturnsAllButOneCellOnFullGrid() {
+
+	col4 = new ConnectedCoordinateCollection(grid3, false);
+	Set<CellCoordinate> connected1 =
+	    new HashSet<>(col4.getValidCellsConnectedTo(new CellCoordinate(0, 0)));
+	assertEquals(connected1.size(), 99);
+	Set<CellCoordinate> connected2 =
+	    new HashSet<>(col4.getValidCellsConnectedTo(new CellCoordinate(9, 9)));
+	assertEquals(connected2.size(), 99);
+	connected1.remove(new CellCoordinate(9, 9));
+	connected2.remove(new CellCoordinate(0, 0));
+	assertEquals(connected1, connected2);
     }
 }

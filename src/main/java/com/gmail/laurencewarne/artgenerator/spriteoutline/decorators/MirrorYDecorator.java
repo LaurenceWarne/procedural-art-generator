@@ -65,7 +65,7 @@ public class MirrorYDecorator extends SpriteOutlineDecorator implements ISpriteO
        value of reflectUp.
 
        @param spriteOutlineGenerator the ISpriteOutlineGenerator to be decorated
-       @param reflectLeft whether the decorator should reflect up or down
+       @param reflectUp whether the decorator should reflect up or down
     */
     public MirrorYDecorator( final ISpriteOutlineGenerator spriteOutlineGenerator, final boolean reflectUp ) {
 
