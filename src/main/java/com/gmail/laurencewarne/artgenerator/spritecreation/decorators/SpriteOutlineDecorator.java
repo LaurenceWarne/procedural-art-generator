@@ -1,7 +1,7 @@
-package com.gmail.laurencewarne.artgenerator.spriteoutline.decorators;
+package com.gmail.laurencewarne.artgenerator.spritecreation.decorators;
 
-import com.gmail.laurencewarne.artgenerator.spriteoutline.ISpriteOutlineGenerator;
-import com.gmail.laurencewarne.artgenerator.spriteoutline.AbstractSpriteOutlineGenerator;
+import com.gmail.laurencewarne.artgenerator.spritecreation.ISpriteOutlineGenerator;
+import com.gmail.laurencewarne.artgenerator.spritecreation.AbstractSpriteOutlineGenerator;
 import com.gmail.laurencewarne.artgenerator.cellgrid.ICellGrid;
 
 

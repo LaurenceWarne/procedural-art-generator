@@ -1,11 +1,11 @@
-package com.gmail.laurencewarne.artgenerator.spriteoutline.decorators;
+package com.gmail.laurencewarne.artgenerator.spritecreation.decorators;
 
 import java.util.List;
 import java.util.Set;
 import java.util.HashSet;
 import java.util.Arrays;
 
-import com.gmail.laurencewarne.artgenerator.spriteoutline.ISpriteOutlineGenerator;
+import com.gmail.laurencewarne.artgenerator.spritecreation.ISpriteOutlineGenerator;
 import com.gmail.laurencewarne.artgenerator.cellgrid.CellCoordinate;
 import com.gmail.laurencewarne.artgenerator.cellgrid.ICellGrid;
 import com.gmail.laurencewarne.artgenerator.cellgrid.ArrayListCellGrid;

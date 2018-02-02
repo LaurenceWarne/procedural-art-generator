@@ -1,4 +1,4 @@
-package com.gmail.laurencewarne.artgenerator.spriteoutline.decorators;
+package com.gmail.laurencewarne.artgenerator.spritecreation.decorators;
 
 import java.util.Arrays;
 import java.util.List;
@@ -11,7 +11,7 @@ import static org.junit.Assert.*;
 import com.gmail.laurencewarne.artgenerator.cellgrid.ICellGrid;
 import com.gmail.laurencewarne.artgenerator.cellgrid.ArrayListCellGrid;
 import com.gmail.laurencewarne.artgenerator.cellgrid.CellCoordinate;
-import com.gmail.laurencewarne.artgenerator.spriteoutline.EnumSpriteOutlineGenerator;
+import com.gmail.laurencewarne.artgenerator.spritecreation.EnumSpriteOutlineGenerator;
 
 
 public class DrawAroundDecoratorTest {

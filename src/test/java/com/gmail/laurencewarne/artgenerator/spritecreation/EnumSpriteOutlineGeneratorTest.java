@@ -1,4 +1,4 @@
-package com.gmail.laurencewarne.artgenerator.spriteoutline;
+package com.gmail.laurencewarne.artgenerator.spritecreation;
 
 import java.util.Arrays;
 
