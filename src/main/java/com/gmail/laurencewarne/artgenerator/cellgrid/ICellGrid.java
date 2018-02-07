@@ -76,6 +76,21 @@ public interface ICellGrid<E> {
 	throws IllegalArgumentException;
 
     /**
+       
+     */
+    default Object[][] toArray() {
+
+	int xLength = getXLength(), yLength = getYLength();
+	Object[][] outputArray = new Object[getYLength()][getXLength()];
+	for ( int i = 0; i < yLength; i++ ){
+	    for ( int j = 0; j < xLength; j++ ){
+		outputArray[i][j] = getValueAt(new CellCoordinate(j, i));
+	    }
+	}
+	return outputArray;
+    }
+
+    /**
        Returns the (value in the) cell of the specified coordinate.
 
        @param  coord the coordinate of the cell to be returned

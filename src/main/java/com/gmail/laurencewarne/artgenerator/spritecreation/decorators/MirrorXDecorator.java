@@ -42,7 +42,7 @@ And if we reflected it left the output would be:
        |---|---|---|---|---|---|
 </pre>
  */
-public class MirrorXDecorator extends SpriteOutlineDecorator implements ISpriteOutlineGenerator {
+public class MirrorXDecorator<E> extends SpriteOutlineDecorator<E> implements ISpriteOutlineGenerator<E> {
 
     /** 
 	True means the decorator reflects the outline left, and false means it 
@@ -58,18 +58,18 @@ public class MirrorXDecorator extends SpriteOutlineDecorator implements ISpriteO
        @param spriteOutlineGenerator the ISpriteOutlineGenerator to be decorated
        @param reflectLeft whether the decorator should reflect left or right
      */
-    public MirrorXDecorator( final ISpriteOutlineGenerator spriteOutlineGenerator, final boolean reflectLeft ) {
+    public MirrorXDecorator( final ISpriteOutlineGenerator<E> spriteOutlineGenerator, final boolean reflectLeft ) {
 	
 	super(spriteOutlineGenerator);
 	this.reflectLeft = reflectLeft;
     }
     
     @Override
-    public ICellGrid<Boolean> genSpriteOutlineAsCellGrid() {
+    public ICellGrid<E> genSpriteOutlineAsCellGrid() {
 
-	ICellGrid<Boolean> baseGrid = super.genSpriteOutlineAsCellGrid();
+	ICellGrid<E> baseGrid = super.genSpriteOutlineAsCellGrid();
 	int yLen = baseGrid.getYLength(), xLen = baseGrid.getXLength();
-	ICellGrid<Boolean> decGrid = new ArrayListCellGrid(xLen*2, yLen, false);
+	ICellGrid<E> decGrid = new ArrayListCellGrid(xLen*2, yLen, null);
 	for ( int i = 0; i < yLen; i++ ){
 	    for ( int j = 0; j < xLen*2; j++ ){
 		CellCoordinate coord = new CellCoordinate(j, i), baseCoord;

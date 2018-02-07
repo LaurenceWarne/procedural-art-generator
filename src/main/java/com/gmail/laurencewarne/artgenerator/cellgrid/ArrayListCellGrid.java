@@ -104,4 +104,55 @@ public class ArrayListCellGrid<E> extends AbstractCellGrid<E> implements ICellGr
 	// do a null check?
 	arrayGrid.get(coord.y).set(coord.x, value);
     }
+
+    @Override
+    public boolean equals( Object o ) {
+
+	if ( this == o ){
+	    return true;
+	}
+	if ( o == null ){
+	    return false;
+	}
+	if ( getClass() != o.getClass() ){
+	    return false;
+	}
+	ArrayListCellGrid otherGrid = (ArrayListCellGrid) o;
+	int otherXLength = otherGrid.getXLength();
+	int otherYLength = otherGrid.getYLength();
+	if ( getXLength() != otherXLength || getYLength() != otherYLength ){
+	    return false;
+	}
+	for ( int i = 0; i < otherYLength; i++ ){
+	    for ( int j = 0; j < otherXLength; j++ ){
+		CellCoordinate coord = new CellCoordinate(j, i);
+		if ( !otherGrid.getValueAt(coord).equals(getValueAt(coord)) ){
+		    return false;
+		}
+	    }
+	}
+	return true;
+    }
+
+    @Override
+    public int hashCode() {
+
+	return arrayGrid.hashCode();
+    }
+
+    @Override
+    public String toString() {
+
+	StringBuilder stringBuilder = new StringBuilder();
+	for ( int i = 0; i < getYLength(); i++ ){
+	    stringBuilder.append("\n{");
+	    for ( int j = 0; j < getXLength(); j++ ) {
+		stringBuilder.append(getValueAt(new CellCoordinate(j, i)));
+		stringBuilder.append(", ");
+	    }
+	    stringBuilder.append("}");
+	}
+	stringBuilder.append("\n");
+	return stringBuilder.toString();
+    }
 }

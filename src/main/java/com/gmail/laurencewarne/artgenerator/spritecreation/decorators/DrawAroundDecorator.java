@@ -24,7 +24,7 @@ These values are changed retrospecively after the previous step has been complet
 for all elements in the grid/array.
 </pre>
  */
-public class DrawAroundDecorator extends SpriteOutlineDecorator implements ISpriteOutlineGenerator {
+public class DrawAroundDecorator extends SpriteOutlineDecorator<Boolean> implements ISpriteOutlineGenerator<Boolean> {
 
     protected final Set<CellCoordinate> alwaysFullCoords, alwaysEmptyCoords;
 
@@ -39,7 +39,7 @@ public class DrawAroundDecorator extends SpriteOutlineDecorator implements ISpri
        @param alwaysEmptyCoords a set of coordinates to be always set to false in the
        output grid
      */
-    public DrawAroundDecorator( final ISpriteOutlineGenerator spriteOutlineGenerator, final Set<CellCoordinate> alwaysFullCoords, final Set<CellCoordinate> alwaysEmptyCoords ) {
+    public DrawAroundDecorator( final ISpriteOutlineGenerator<Boolean> spriteOutlineGenerator, final Set<CellCoordinate> alwaysFullCoords, final Set<CellCoordinate> alwaysEmptyCoords ) {
 
 	super(spriteOutlineGenerator);
 	this.alwaysFullCoords = alwaysFullCoords;
@@ -141,7 +141,8 @@ public class DrawAroundDecorator extends SpriteOutlineDecorator implements ISpri
 	    alwaysEmptyCoords.remove(coord);
 	}
     }
-    
+
+    @Override
     public ICellGrid<Boolean> genSpriteOutlineAsCellGrid() {
 
 	ICellGrid<Boolean> wrappedGrid = super.genSpriteOutlineAsCellGrid();

@@ -5,16 +5,16 @@ import com.gmail.laurencewarne.artgenerator.spritecreation.AbstractSpriteOutline
 import com.gmail.laurencewarne.artgenerator.cellgrid.ICellGrid;
 
 
-public abstract class SpriteOutlineDecorator extends AbstractSpriteOutlineGenerator implements ISpriteOutlineGenerator {
+public abstract class SpriteOutlineDecorator<E> extends AbstractSpriteOutlineGenerator<E> implements ISpriteOutlineGenerator<E> {
 
-    private final ISpriteOutlineGenerator spriteOutlineGenerator;
+    private final ISpriteOutlineGenerator<E> spriteOutlineGenerator;
 
-    public SpriteOutlineDecorator( final ISpriteOutlineGenerator spriteOutlineGenerator ) {
+    public SpriteOutlineDecorator( final ISpriteOutlineGenerator<E> spriteOutlineGenerator ) {
 	this.spriteOutlineGenerator = spriteOutlineGenerator;
     }
 
     @Override
-    public ICellGrid<Boolean> genSpriteOutlineAsCellGrid() {
+    public ICellGrid<E> genSpriteOutlineAsCellGrid() {
 
 	return spriteOutlineGenerator.genSpriteOutlineAsCellGrid();
     }

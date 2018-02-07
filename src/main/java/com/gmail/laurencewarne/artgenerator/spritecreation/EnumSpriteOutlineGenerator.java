@@ -5,7 +5,6 @@ import java.util.List;
 
 import com.gmail.laurencewarne.artgenerator.cellgrid.ICellGrid;
 import com.gmail.laurencewarne.artgenerator.cellgrid.ArrayListCellGrid;
-import com.gmail.laurencewarne.artgenerator.cellgrid.ArrayListCellGrid;
 import com.gmail.laurencewarne.artgenerator.cellgrid.CellCoordinate;
 
 
@@ -26,7 +25,7 @@ cells can be either and are determined by a seed. An EnumSpriteOutlineGenerator
 with the same seed an anterior grid will always produce the same output grid.
 </pre>
  */
-public class EnumSpriteOutlineGenerator extends AbstractSpriteOutlineGenerator implements ISpriteOutlineGenerator {
+public class EnumSpriteOutlineGenerator extends AbstractSpriteOutlineGenerator<Boolean> implements ISpriteOutlineGenerator<Boolean> {
 
     /** 
 	Represents possible states in the generated base grid. ALWAYS_FILLED cells

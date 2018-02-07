@@ -10,7 +10,7 @@ import static org.junit.Assert.*;
 
 public class ArrayListCellGridTest {
 
-    private ArrayListCellGrid<Integer> intCellGrid1, intCellGrid2;
+private ArrayListCellGrid<Integer> intCellGrid1, intCellGrid2;
 
     @Before
     public void setUp() {
@@ -30,7 +30,7 @@ public class ArrayListCellGridTest {
 
 	ArrayListCellGrid<Integer> invalidGrid = new ArrayListCellGrid<>(0, 5, 1);
     }
-    
+
 
     @Test
     public void testAllElementsAreDefault() {
@@ -53,10 +53,10 @@ public class ArrayListCellGridTest {
 	for ( CellCoordinate coord : neighbours ){
 	    assertTrue(Math.abs(centre.x - coord.x) == 1 ||
 		       Math.abs(centre.x - coord.x) == 0
-	    );
+		       );
 	    assertTrue(Math.abs(centre.y - coord.y) == 1 ||
 		       Math.abs(centre.y - coord.y) == 0
-	    );
+		       );
 	}
     }
 
@@ -71,10 +71,10 @@ public class ArrayListCellGridTest {
 	for ( CellCoordinate coord : neighbours ){
 	    assertTrue(Math.abs(centre.x - coord.x) == 1 ||
 		       Math.abs(centre.x - coord.x) == 0
-	    );
+		       );
 	    assertTrue(Math.abs(centre.y - coord.y) == 1 ||
 		       Math.abs(centre.y - coord.y) == 0
-	    );
+		       );
 	}
 	List<CellCoordinate> neighbours2 = intCellGrid2
 	    .getCoordsOfMooreNeighbours(centre);
@@ -91,10 +91,10 @@ public class ArrayListCellGridTest {
 	for ( CellCoordinate coord : neighbours ){
 	    assertTrue(Math.abs(centre.x - coord.x) == 1 ||
 		       Math.abs(centre.x - coord.x) == 0
-	    );
+		       );
 	    assertTrue(Math.abs(centre.y - coord.y) == 1 ||
 		       Math.abs(centre.y - coord.y) == 0
-	    );
+		       );
 	}
     }
 
@@ -108,10 +108,10 @@ public class ArrayListCellGridTest {
 	for ( CellCoordinate coord : neighbours ){
 	    assertTrue(Math.abs(centre.x - coord.x) == 1 ||
 		       Math.abs(centre.x - coord.x) == 0
-	    );
+		       );
 	    assertTrue(Math.abs(centre.y - coord.y) == 1 ||
 		       Math.abs(centre.y - coord.y) == 0
-	    );
+		       );
 	}
 	List<CellCoordinate> neighbours2 = intCellGrid2
 	    .getCoordsOfNeumannNeighbours(centre);
@@ -146,4 +146,21 @@ public class ArrayListCellGridTest {
 	    intCellGrid1.getCoordsOfCellsEqualTo(0);
 	assertEquals(equalCellCoords2.size(), 96);
     }
+
+    @Test
+    public void testSameObjectReferenceIsEqual() {
+
+	ICellGrid<Integer> identical1 = intCellGrid1;
+	ICellGrid<Integer> identical2 = intCellGrid2;
+	assertEquals(identical1, intCellGrid1);
+	assertEquals(identical2, intCellGrid2);
+    }
+
+    @Test
+    public void testDifferentSizedCellGridAreNotEqual() {
+
+	assertNotEquals(intCellGrid1, intCellGrid2);
+    }
+
+    
 }

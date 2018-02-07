@@ -54,7 +54,7 @@ And if we reflected it up the output would be:
        |---|---|---|
 </pre>
  */
-public class MirrorYDecorator extends SpriteOutlineDecorator implements ISpriteOutlineGenerator {
+public class MirrorYDecorator<E> extends SpriteOutlineDecorator<E> implements ISpriteOutlineGenerator<E> {
 
     /** True means reflect up, false means reflect down. */
     protected boolean reflectUp;
@@ -67,7 +67,7 @@ public class MirrorYDecorator extends SpriteOutlineDecorator implements ISpriteO
        @param spriteOutlineGenerator the ISpriteOutlineGenerator to be decorated
        @param reflectUp whether the decorator should reflect up or down
     */
-    public MirrorYDecorator( final ISpriteOutlineGenerator spriteOutlineGenerator, final boolean reflectUp ) {
+    public MirrorYDecorator( final ISpriteOutlineGenerator<E> spriteOutlineGenerator, final boolean reflectUp ) {
 
 	super(spriteOutlineGenerator);
 	this.reflectUp = reflectUp;
@@ -75,11 +75,11 @@ public class MirrorYDecorator extends SpriteOutlineDecorator implements ISpriteO
 
     
     @Override
-    public ICellGrid<Boolean> genSpriteOutlineAsCellGrid() {
+    public ICellGrid<E> genSpriteOutlineAsCellGrid() {
 
-	ICellGrid<Boolean> baseGrid = super.genSpriteOutlineAsCellGrid();
+	ICellGrid<E> baseGrid = super.genSpriteOutlineAsCellGrid();
 	int yLen = baseGrid.getYLength(), xLen = baseGrid.getXLength();
-	ICellGrid<Boolean> decGrid = new ArrayListCellGrid(xLen, yLen*2, false);
+	ICellGrid<E> decGrid = new ArrayListCellGrid(xLen, yLen*2, null);
 	for ( int i = 0; i < yLen*2; i++ ){
 	    // We translate this function of i to produce the reflections.
 	    float iFunc = Math.abs(yLen - i - 0.5f);

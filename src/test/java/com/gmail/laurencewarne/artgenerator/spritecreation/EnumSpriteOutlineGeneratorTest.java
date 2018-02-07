@@ -20,7 +20,7 @@ public class EnumSpriteOutlineGeneratorTest {
     private final static EnumSpriteOutlineGenerator.CellState ALWAYS_FILLED =
 	EnumSpriteOutlineGenerator.CellState.ALWAYS_FILLED;
     private final static EnumSpriteOutlineGenerator.CellState VARIED =
-	EnumSpriteOutlineGenerator.CellState.VARIED;    
+	EnumSpriteOutlineGenerator.CellState.VARIED;
 
     @Before
     public void setUp() {
@@ -31,7 +31,6 @@ public class EnumSpriteOutlineGeneratorTest {
 	    new ArrayListCellGrid<>(10, 50, ALWAYS_FILLED);
 	gen1 = new EnumSpriteOutlineGenerator(grid1, 13423L);
 	gen2 = new EnumSpriteOutlineGenerator(grid2, 31435435432L);
-	// Make the protected method genBaseGrid public so we can test it
     }
 
     @Test
@@ -53,7 +52,6 @@ public class EnumSpriteOutlineGeneratorTest {
 
     @Test
     public void testCellValuesChange() {
-
 	
 	gen1.setCellStateAt(new CellCoordinate(0, 0), ALWAYS_FILLED);
 	gen1.setCellStateAt(new CellCoordinate(0, 1), ALWAYS_EMPTY);
@@ -75,18 +73,15 @@ public class EnumSpriteOutlineGeneratorTest {
     @Test
     public void testOutputGridCorrectFromInitialGrid() {
 
-	boolean[][] output1 = gen1.genSpriteOutline();
-	boolean[][] output2 = gen2.genSpriteOutline();
-	for ( boolean[] arr : output1 ){
-	    for ( boolean value : arr ){
-		assertEquals(value, Boolean.valueOf(false));
+	ICellGrid<Boolean> output1 = gen1.genSpriteOutlineAsCellGrid();
+	ICellGrid<Boolean> output2 = gen2.genSpriteOutlineAsCellGrid();
+	for ( int i = 0; i < output1.getYLength(); i++ ){
+	    for ( int j = 0; j < output1.getXLength(); j++ ){
+		assertEquals(output1.getValueAt(new CellCoordinate(j, i)), false);
 	    }
 	}
-	for ( boolean[] arr : output2 ){
-	    for ( boolean value : arr ){
-		assertEquals(value, Boolean.valueOf(true));
-	    }
-	}
+	assertEquals(output1, new ArrayListCellGrid<Boolean>(10, 10, false));
+	assertEquals(output2, new ArrayListCellGrid<Boolean>(10, 50, true));
     }
 
     @Test
@@ -97,14 +92,14 @@ public class EnumSpriteOutlineGeneratorTest {
 		gen1.setCellStateAt(new CellCoordinate(j, i), ALWAYS_FILLED);
 	    }
 	}
-	boolean[][] output = gen1.genSpriteOutline();
+	ICellGrid<Boolean> output = gen1.genSpriteOutlineAsCellGrid();
 	for ( int i = 0; i < gen1.getYLengthOfOutline(); i++ ){
 	    for ( int j = 0; j < gen1.getXLengthOfOutline(); j++ ){
 		if ( j < gen1.getXLengthOfOutline()/2 ){
-		    assertEquals(output[i][j], true);
+		    assertEquals(output.getValueAt(new CellCoordinate(j, i)), true);
 		}
 		else {
-		    assertEquals(output[i][j], false);
+		    assertEquals(output.getValueAt(new CellCoordinate(j, i)), false);
 		}
 	    }
 	}
@@ -121,14 +116,14 @@ public class EnumSpriteOutlineGeneratorTest {
 	    }
 	}
 	// We test the varied coordinates are not null.
-	boolean[][] output = gen1.genSpriteOutline();
+	ICellGrid<Boolean> output = gen1.genSpriteOutlineAsCellGrid();
 	for ( int i = 0; i < gen1.getYLengthOfOutline(); i++ ){
 	    for ( int j = 0; j < gen1.getXLengthOfOutline(); j++ ){
 		if ( i == j ){
-		    assertNotEquals(output[i][j], null);
+		    assertNotEquals(output.getValueAt(new CellCoordinate(j, i)), null);
 		}
 		else {
-		    assertEquals(output[i][j], false);
+		    assertEquals(output.getValueAt(new CellCoordinate(j, i)), false);
 		}
 	    }
 	}
@@ -144,9 +139,9 @@ public class EnumSpriteOutlineGeneratorTest {
 		}
 	    }
 	}
-	boolean[][] output1 = gen1.genSpriteOutline();
-	boolean[][] output2 = gen1.genSpriteOutline();
-	assertEquals(Arrays.deepEquals(output1, output2), true);
+	ICellGrid<Boolean> output1 = gen1.genSpriteOutlineAsCellGrid();
+	ICellGrid<Boolean> output2 = gen1.genSpriteOutlineAsCellGrid();
+	assertEquals(output1, output2);
     }
 
     @Test
@@ -159,9 +154,9 @@ public class EnumSpriteOutlineGeneratorTest {
 		}
 	    }
 	}
-	boolean[][] output1 = gen1.genSpriteOutline();
+	ICellGrid<Boolean> output1 = gen1.genSpriteOutlineAsCellGrid();
 	gen1.setSeed(gen1.getSeed() + 1);
-	boolean[][] output2 = gen2.genSpriteOutline();
-	assertNotEquals(Arrays.deepEquals(output1, output2), true);
-    }    
+	ICellGrid<Boolean> output2 = gen2.genSpriteOutlineAsCellGrid();
+	assertNotEquals(output1, output2);
+    }
 }

@@ -6,7 +6,7 @@ import com.gmail.laurencewarne.artgenerator.cellgrid.ICellGrid;
 Users of this interface implement a method of obtaining a 2D rectangular array
  representing a 'sprite outline'.
  */
-public interface ISpriteOutlineGenerator {
+public interface ISpriteOutlineGenerator<E> {
 
     /**
        Returns a 2D(rectangular) boolean array in which true values represent a 
@@ -15,7 +15,7 @@ public interface ISpriteOutlineGenerator {
        
        @return rectangular boolean array representing a sprite outline
      */
-    boolean[][] genSpriteOutline();
+    //boolean[][] genSpriteOutline();
 
     /**
        Returns an implementation of a cell grid equivalent to the 2D boolean array
@@ -23,7 +23,7 @@ public interface ISpriteOutlineGenerator {
        
        @return ICellGrid representing a sprite outline.
      */
-    ICellGrid<Boolean> genSpriteOutlineAsCellGrid();
+    ICellGrid<E> genSpriteOutlineAsCellGrid();
 
     /**
        Returns the length in x of the output of genSpriteOutline, aka the number

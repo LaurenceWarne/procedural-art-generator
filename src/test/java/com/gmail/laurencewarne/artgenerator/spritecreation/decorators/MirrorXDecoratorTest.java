@@ -15,13 +15,13 @@ import com.gmail.laurencewarne.artgenerator.spritecreation.EnumSpriteOutlineGene
 
 public class MirrorXDecoratorTest {
 
-    MirrorXDecorator gen1, gen2, gen3, gen4;
+    MirrorXDecorator<Boolean> gen1, gen2, gen3, gen4;
     private final static EnumSpriteOutlineGenerator.CellState ALWAYS_EMPTY =
 	EnumSpriteOutlineGenerator.CellState.ALWAYS_EMPTY;
     private final static EnumSpriteOutlineGenerator.CellState ALWAYS_FILLED =
 	EnumSpriteOutlineGenerator.CellState.ALWAYS_FILLED;
     private final static EnumSpriteOutlineGenerator.CellState VARIED =
-	EnumSpriteOutlineGenerator.CellState.VARIED;    
+	EnumSpriteOutlineGenerator.CellState.VARIED;
     ICellGrid<EnumSpriteOutlineGenerator.CellState> grid1, grid2, grid3;
 
     @Before
@@ -31,13 +31,13 @@ public class MirrorXDecoratorTest {
 	grid1 = new ArrayListCellGrid<>(10, 10, VARIED);
 	grid2 = new ArrayListCellGrid<>(20, 10, VARIED);
 	grid3 = new ArrayListCellGrid<>(3, 2, ALWAYS_FILLED);
-	gen1 = new MirrorXDecorator(new EnumSpriteOutlineGenerator(grid1, 13L), true);
-	gen2 = new MirrorXDecorator(new EnumSpriteOutlineGenerator(grid2, 13L), false);
+	gen1 = new MirrorXDecorator<>(new EnumSpriteOutlineGenerator(grid1, 13L), true);
+	gen2 = new MirrorXDecorator<>(new EnumSpriteOutlineGenerator(grid2, 13L), false);
 	EnumSpriteOutlineGenerator e = new EnumSpriteOutlineGenerator(grid3, 34L);
 	e.setCellStateAt(new CellCoordinate(2, 0), ALWAYS_EMPTY);
 	e.setCellStateAt(new CellCoordinate(2, 1), ALWAYS_EMPTY);	
-	gen3 = new MirrorXDecorator(e, true);
-	gen4 = new MirrorXDecorator(e, false);
+	gen3 = new MirrorXDecorator<>(e, true);
+	gen4 = new MirrorXDecorator<>(e, false);
     }
 
     @Test
@@ -52,18 +52,18 @@ public class MirrorXDecoratorTest {
     @Test
     public void testOutputArrayIsSymmetrical() {
 
-	boolean[][] output1 = gen1.genSpriteOutline();
+	ICellGrid<Boolean> output1 = gen1.genSpriteOutlineAsCellGrid();
 	for ( int i = 0; i < gen1.getYLengthOfOutline(); i++ ){
 	    for ( int j = 0; j < gen1.getXLengthOfOutline(); j++ ){
-		assertEquals(output1[i][j],
-			     output1[i][gen1.getXLengthOfOutline() - j - 1]);
+		assertEquals(output1.getValueAt(new CellCoordinate(j, i)),
+			     output1.getValueAt(new CellCoordinate(gen1.getXLengthOfOutline() - j - 1, i)));
 	    }
 	}
-	boolean[][] output2 = gen2.genSpriteOutline();	
+	ICellGrid<Boolean> output2 = gen2.genSpriteOutlineAsCellGrid();	
 	for ( int i = 0; i < gen2.getYLengthOfOutline(); i++ ){
 	    for ( int j = 0; j < gen2.getXLengthOfOutline(); j++ ){
-		assertEquals(output2[i][j],
-			     output2[i][gen2.getXLengthOfOutline() - j - 1]);
+		assertEquals(output2.getValueAt(new CellCoordinate(j, i)),
+			     output2.getValueAt(new CellCoordinate(gen2.getXLengthOfOutline() - j - 1, i)));
 	    }
 	}	
     }
@@ -71,16 +71,22 @@ public class MirrorXDecoratorTest {
     @Test
     public void testOutputArrayIsCorrectForRelflectLeftForSmallGenerator() {
 
-	boolean[][] output1 = gen3.genSpriteOutline();
-	boolean[][] output2 = gen4.genSpriteOutline();	
-	//undecorated array = new boolean[] {true, true, false};
-	boolean[] leftArray = new boolean[] {false, true, true, true, true, false};
-	boolean[] rightArray = new boolean[] {true, true, false, false, true, true};
-	for ( boolean[] arr : output1 ){
-	    assertTrue(Arrays.equals(arr, leftArray));
+	ICellGrid<Boolean> output1 = gen3.genSpriteOutlineAsCellGrid();
+	ICellGrid<Boolean> output2 = gen4.genSpriteOutlineAsCellGrid();	
+	//undecorated array = new Boolean[] {true, true, false};
+	//leftArray = new Boolean[] {false, true, true, true, true, false};
+	//rightArray = new Boolean[] {true, true, false, false, true, true};
+	ICellGrid<Boolean> leftGrid = new ArrayListCellGrid<Boolean>(6, output1.getYLength(), true);
+	for ( int i = 0; i < output1.getYLength(); i++ ){
+	    leftGrid.setValueAt(new CellCoordinate(0, i), false);
+	    leftGrid.setValueAt(new CellCoordinate(5, i), false);
 	}
-	for ( boolean[] arr : output2 ){
-	    assertTrue(Arrays.equals(arr, rightArray));
+	ICellGrid<Boolean> rightGrid = new ArrayListCellGrid<Boolean>(6, output2.getYLength(), true);
+	for ( int i = 0; i < output2.getYLength(); i++ ){
+	    rightGrid.setValueAt(new CellCoordinate(2, i), false);
+	    rightGrid.setValueAt(new CellCoordinate(3, i), false);
 	}
+	assertEquals(output1, leftGrid);
+	assertEquals(output2, rightGrid);
     }
 }
