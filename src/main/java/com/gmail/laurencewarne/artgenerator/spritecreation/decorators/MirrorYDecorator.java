@@ -7,8 +7,8 @@ import com.gmail.laurencewarne.artgenerator.cellgrid.CellCoordinate;
 
 
 /**
-Implementation of ISpriteOutineGenerator used as a decorator to mirror the ouput of 
-another ISpriteGenerator instance either up or down.
+Implementation of ISpriteOutineGenerator used as a decorator to mirror the output 
+of another ISpriteGenerator instance either up or down.
 
 <pre>
 For example if we were to decorate the following grid:

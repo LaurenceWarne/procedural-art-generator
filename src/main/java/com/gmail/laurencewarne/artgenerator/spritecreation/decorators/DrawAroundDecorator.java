@@ -12,13 +12,15 @@ import com.gmail.laurencewarne.artgenerator.cellgrid.ArrayListCellGrid;
 
 /**
 <pre>
-This decorator implementation "draws around" the 2D boolean array(visualised as a 
-table) representing a sprite . The "filled"(true) values are set to false and
-their "touching" are set to true.
+This decorator implementation "draws around" the ICellGrid(visualised as a table)
+representing a sprite . The "filled"(true) values are set to false and their
+"touching" cells are set to true.
 
-If a value in the decorated array is true, then it is set to false in the new array.
+The output grid is generated based on the decorated grid as follows:
+
+If a value in the decorated grid is true, then it is set to false in the new grid.
 If the value is false, it's adjacent values(excluding diagonals) are searched, and 
-if at least one is true, then the false value is set to true in the new array.
+if at least one is true, then the false value is set to true in the new grid.
 Values which are always "filled"(true) and always "empty"(false) can be specified.
 These values are changed retrospecively after the previous step has been completed
 for all elements in the grid/array.
@@ -29,9 +31,9 @@ public class DrawAroundDecorator extends SpriteTransformer<Boolean, Boolean> imp
     protected final Set<CellCoordinate> alwaysFullCoords, alwaysEmptyCoords;
 
     /**
-       Constructs a draw around decorator by decorating the given 
-       spriteGenerator. Coordinates of cells set to be always filled and 
-       always empty can also be specified.
+       Constructs a draw around decorator by decorating the given spriteGenerator.
+       Coordinates of cells set to be always filled and always empty can also be
+       specified.
 
        @param spriteGenerator the ISpriteGenerator to be decorated
        @param alwaysFullCoords a set of coordinates to be always set to true in the
