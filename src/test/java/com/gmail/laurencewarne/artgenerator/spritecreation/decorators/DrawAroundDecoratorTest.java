@@ -11,19 +11,19 @@ import static org.junit.Assert.*;
 import com.gmail.laurencewarne.artgenerator.cellgrid.ICellGrid;
 import com.gmail.laurencewarne.artgenerator.cellgrid.ArrayListCellGrid;
 import com.gmail.laurencewarne.artgenerator.cellgrid.CellCoordinate;
-import com.gmail.laurencewarne.artgenerator.spritecreation.EnumSpriteOutlineGenerator;
+import com.gmail.laurencewarne.artgenerator.spritecreation.EnumSpriteGenerator;
 
 
 public class DrawAroundDecoratorTest {
 
-    private EnumSpriteOutlineGenerator e1, e2, e3;
-    private final static EnumSpriteOutlineGenerator.CellState ALWAYS_EMPTY =
-	EnumSpriteOutlineGenerator.CellState.ALWAYS_EMPTY;
-    private final static EnumSpriteOutlineGenerator.CellState ALWAYS_FILLED =
-	EnumSpriteOutlineGenerator.CellState.ALWAYS_FILLED;
-    private final static EnumSpriteOutlineGenerator.CellState VARIED =
-	EnumSpriteOutlineGenerator.CellState.VARIED;
-    ICellGrid<EnumSpriteOutlineGenerator.CellState> grid1, grid2, grid3, grid4;
+    private EnumSpriteGenerator e1, e2, e3;
+    private final static EnumSpriteGenerator.CellState ALWAYS_EMPTY =
+	EnumSpriteGenerator.CellState.ALWAYS_EMPTY;
+    private final static EnumSpriteGenerator.CellState ALWAYS_FILLED =
+	EnumSpriteGenerator.CellState.ALWAYS_FILLED;
+    private final static EnumSpriteGenerator.CellState VARIED =
+	EnumSpriteGenerator.CellState.VARIED;
+    ICellGrid<EnumSpriteGenerator.CellState> grid1, grid2, grid3, grid4;
 
     @Before
     public void setUp() {
@@ -32,9 +32,9 @@ public class DrawAroundDecoratorTest {
 	grid2 = new ArrayListCellGrid<>(20, 10, ALWAYS_EMPTY);
 	grid3 = new ArrayListCellGrid<>(5, 5, ALWAYS_EMPTY);
 	grid4 = new ArrayListCellGrid<>(5, 10, ALWAYS_FILLED);
-	e1 = new EnumSpriteOutlineGenerator(grid3, 34L);
-	e2 = new EnumSpriteOutlineGenerator(grid2, 435L);
-	e3 = new EnumSpriteOutlineGenerator(grid4, 342L);
+	e1 = new EnumSpriteGenerator(grid3, 34L);
+	e2 = new EnumSpriteGenerator(grid2, 435L);
+	e3 = new EnumSpriteGenerator(grid4, 342L);
     }
 
     @Test
@@ -42,7 +42,7 @@ public class DrawAroundDecoratorTest {
 
 	e1.setCellStateAt(new CellCoordinate(1, 1), ALWAYS_FILLED);
 	DrawAroundDecorator gen1 = new DrawAroundDecorator(e1);
-	ICellGrid<Boolean> drawnAroundGrid = gen1.genSpriteOutlineAsCellGrid();
+	ICellGrid<Boolean> drawnAroundGrid = gen1.genSpriteAsCellGrid();
 	List<CellCoordinate> filledCells =
 	    Arrays.asList(
 			  new CellCoordinate(0, 0),
@@ -72,7 +72,7 @@ public class DrawAroundDecoratorTest {
 
 	e1.setCellStateAt(new CellCoordinate(0, 0), ALWAYS_FILLED);
 	DrawAroundDecorator gen1 = new DrawAroundDecorator(e1);	
-	ICellGrid<Boolean> drawnAroundGrid = gen1.genSpriteOutlineAsCellGrid();
+	ICellGrid<Boolean> drawnAroundGrid = gen1.genSpriteAsCellGrid();
 	List<CellCoordinate> filledCells =
 	    Arrays.asList(
 			  new CellCoordinate(1, 0),
@@ -98,7 +98,7 @@ public class DrawAroundDecoratorTest {
 	e1.setCellStateAt(new CellCoordinate(1, 1), ALWAYS_FILLED);
 	DrawAroundDecorator gen1 = new DrawAroundDecorator(e1);
 	gen1.addAlwaysFullCoord(new CellCoordinate(1, 1));
-	ICellGrid<Boolean> drawnAroundGrid = gen1.genSpriteOutlineAsCellGrid();
+	ICellGrid<Boolean> drawnAroundGrid = gen1.genSpriteAsCellGrid();
 	List<CellCoordinate> filledCells =
 	    Arrays.asList(
 			  new CellCoordinate(1, 1),
@@ -130,7 +130,7 @@ public class DrawAroundDecoratorTest {
 	DrawAroundDecorator gen1 = new DrawAroundDecorator(e1);
 	gen1.addAlwaysFullCoord(new CellCoordinate(1, 1));
 	gen1.removeAlwaysFullCoord(new CellCoordinate(1, 1));
-	ICellGrid<Boolean> drawnAroundGrid = gen1.genSpriteOutlineAsCellGrid();
+	ICellGrid<Boolean> drawnAroundGrid = gen1.genSpriteAsCellGrid();
 	for ( int i = 0; i < drawnAroundGrid.getYLength(); i++ ){
 	    for ( int j = 0; j < drawnAroundGrid.getXLength(); j++ ){
 		assertFalse(drawnAroundGrid.getValueAt(new CellCoordinate(j, i)));
@@ -144,7 +144,7 @@ public class DrawAroundDecoratorTest {
 	e1.setCellStateAt(new CellCoordinate(1, 1), ALWAYS_FILLED);
 	e1.setCellStateAt(new CellCoordinate(2, 1), ALWAYS_FILLED);	
 	DrawAroundDecorator gen1 = new DrawAroundDecorator(e1);
-	ICellGrid<Boolean> drawnAroundGrid = gen1.genSpriteOutlineAsCellGrid();
+	ICellGrid<Boolean> drawnAroundGrid = gen1.genSpriteAsCellGrid();
 	List<CellCoordinate> filledCells =
 	    Arrays.asList(
 			  new CellCoordinate(0, 0),
@@ -179,7 +179,7 @@ public class DrawAroundDecoratorTest {
 	e2.setCellStateAt(new CellCoordinate(1, 1), ALWAYS_FILLED);
 	e2.setCellStateAt(new CellCoordinate(13, 8), ALWAYS_FILLED);	
 	DrawAroundDecorator gen1 = new DrawAroundDecorator(e2);
-	ICellGrid<Boolean> drawnAroundGrid = gen1.genSpriteOutlineAsCellGrid();
+	ICellGrid<Boolean> drawnAroundGrid = gen1.genSpriteAsCellGrid();
 	List<CellCoordinate> filledCells =
 	    Arrays.asList(
 			  new CellCoordinate(0, 0),
@@ -217,7 +217,7 @@ public class DrawAroundDecoratorTest {
     public void testCompletelyFilledGridGivesEmptyGridWhenDrawnAround() {
 
 	DrawAroundDecorator gen1 = new DrawAroundDecorator(e3);
-	ICellGrid<Boolean> drawnAroundGrid = gen1.genSpriteOutlineAsCellGrid();
+	ICellGrid<Boolean> drawnAroundGrid = gen1.genSpriteAsCellGrid();
 	for ( int i = 0; i < drawnAroundGrid.getYLength(); i++ ){
 	    for ( int j = 0; j < drawnAroundGrid.getXLength(); j++ ){
 		assertFalse(drawnAroundGrid.getValueAt(new CellCoordinate(j, i)));
@@ -232,7 +232,7 @@ public class DrawAroundDecoratorTest {
 	    e2.setCellStateAt(new CellCoordinate(10, i), ALWAYS_FILLED);
 	}
 	DrawAroundDecorator gen1 = new DrawAroundDecorator(e2);
-	ICellGrid<Boolean> drawnAroundGrid = gen1.genSpriteOutlineAsCellGrid();
+	ICellGrid<Boolean> drawnAroundGrid = gen1.genSpriteAsCellGrid();
 	for ( int i = 0; i < drawnAroundGrid.getYLength(); i++ ){
 	    for ( int j = 0; j < drawnAroundGrid.getXLength(); j++ ){
 		if ( j == 9 || j == 11 ){
@@ -250,7 +250,7 @@ public class DrawAroundDecoratorTest {
 
 	DrawAroundDecorator gen1 = new DrawAroundDecorator(e3);
 	e3.setCellStateAt(new CellCoordinate(3, 3), ALWAYS_EMPTY);
-	ICellGrid<Boolean> drawnAroundGrid = gen1.genSpriteOutlineAsCellGrid();
+	ICellGrid<Boolean> drawnAroundGrid = gen1.genSpriteAsCellGrid();
 	for ( int i = 0; i < drawnAroundGrid.getYLength(); i++ ){
 	    for ( int j = 0; j < drawnAroundGrid.getXLength(); j++ ){
 		if ( i == 3 && j == 3 ){
