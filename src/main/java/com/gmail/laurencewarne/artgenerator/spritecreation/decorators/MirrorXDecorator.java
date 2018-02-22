@@ -1,14 +1,14 @@
 package com.gmail.laurencewarne.artgenerator.spritecreation.decorators;
 
-import com.gmail.laurencewarne.artgenerator.spritecreation.ISpriteOutlineGenerator;
+import com.gmail.laurencewarne.artgenerator.spritecreation.ISpriteGenerator;
 import com.gmail.laurencewarne.artgenerator.cellgrid.ICellGrid;
 import com.gmail.laurencewarne.artgenerator.cellgrid.ArrayListCellGrid;
 import com.gmail.laurencewarne.artgenerator.cellgrid.CellCoordinate;
 
 
 /**
-Implementation of ISpriteOutlineGenerator used as a decorator to mirror the output of
-another ISpriteOutlineGenerator instance either left or right.
+Implementation of ISpriteGenerator used as a decorator to mirror the output of
+another ISpriteGenerator instance either left or right.
 
 <pre>
 For example if we were to decorate the following grid:
@@ -42,34 +42,34 @@ And if we reflected it left the output would be:
        |---|---|---|---|---|---|
 </pre>
  */
-public class MirrorXDecorator<E> extends SpriteOutlineDecorator<E> implements ISpriteOutlineGenerator<E> {
+public class MirrorXDecorator<T> extends SpriteTransformer<T, T> implements ISpriteGenerator<T> {
 
     /** 
-	True means the decorator reflects the outline left, and false means it 
+	True means the decorator reflects the  left, and false means it 
 	reflects it right.
     */
     protected boolean reflectLeft;
 
     /**
-       Constructs a MirrorXDecorator decorating the specified spriteOutlineGenerator,
+       Constructs a MirrorXDecorator decorating the specified spriteGenerator,
        reflecting the outuput of the decorated object left or right depending on the
        value of reflectLeft.
 
-       @param spriteOutlineGenerator the ISpriteOutlineGenerator to be decorated
+       @param spriteGenerator the ISpriteGenerator to be decorated
        @param reflectLeft whether the decorator should reflect left or right
      */
-    public MirrorXDecorator( final ISpriteOutlineGenerator<E> spriteOutlineGenerator, final boolean reflectLeft ) {
+    public MirrorXDecorator( final ISpriteGenerator<T> spriteGenerator, final boolean reflectLeft ) {
 	
-	super(spriteOutlineGenerator);
+	super(spriteGenerator);
 	this.reflectLeft = reflectLeft;
     }
     
     @Override
-    public ICellGrid<E> genSpriteOutlineAsCellGrid() {
+    public ICellGrid<T> genSpriteAsCellGrid() {
 
-	ICellGrid<E> baseGrid = super.genSpriteOutlineAsCellGrid();
+	ICellGrid<T> baseGrid = super.genSpriteAsCellGridFromDecoratee();
 	int yLen = baseGrid.getYLength(), xLen = baseGrid.getXLength();
-	ICellGrid<E> decGrid = new ArrayListCellGrid(xLen*2, yLen, null);
+	ICellGrid<T> decGrid = new ArrayListCellGrid<>(xLen*2, yLen, null);
 	for ( int i = 0; i < yLen; i++ ){
 	    for ( int j = 0; j < xLen*2; j++ ){
 		CellCoordinate coord = new CellCoordinate(j, i), baseCoord;
@@ -89,8 +89,8 @@ public class MirrorXDecorator<E> extends SpriteOutlineDecorator<E> implements IS
     }
 
     @Override
-    public int getXLengthOfOutline() {
+    public int getXLength() {
 
-	return super.getXLengthOfOutline() * 2;
+	return super.getXLength() * 2;
     }
 }

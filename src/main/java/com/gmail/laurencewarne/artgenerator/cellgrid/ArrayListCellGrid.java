@@ -105,6 +105,12 @@ public class ArrayListCellGrid<E> extends AbstractCellGrid<E> implements ICellGr
 	arrayGrid.get(coord.y).set(coord.x, value);
     }
 
+    /**
+       Compares the specified object with this object for equality. Returns true
+       if and only if the specified object is also an ArrayListCellGrid, both 
+       grids have the same dimensions, and all corresponding pairs of elements in
+       the two grids are equal.
+     */
     @Override
     public boolean equals( Object o ) {
 
@@ -134,6 +140,10 @@ public class ArrayListCellGrid<E> extends AbstractCellGrid<E> implements ICellGr
 	return true;
     }
 
+    /**
+       Returns the hash code value for this ArrayListCellGrid. Returns the 
+       hashcode of the internal ArrayList this class wraps.
+     */
     @Override
     public int hashCode() {
 

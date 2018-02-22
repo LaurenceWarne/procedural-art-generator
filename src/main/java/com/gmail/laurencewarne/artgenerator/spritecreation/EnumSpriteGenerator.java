@@ -10,22 +10,22 @@ import com.gmail.laurencewarne.artgenerator.cellgrid.CellCoordinate;
 
 /**
 <pre>
-An implementation of the ISpriteOutlineGenerator interface which uses an
-implementation of an ICellGrid to generate sprite outlines.
+An implementation of the ISpriteGenerator interface which uses an implementation of
+an ICellGrid to generate sprites.
 
 This implementation uses a grid, whose rows and columns are analogous to the 
-rectangular output grid/array, to produce said output 2D boolean grid/array. The 
-first 'anterior' grid is passed to the class' constructor. Its cells consist of enum
+rectangular output grid, to produce said output 2D boolean grid. The first
+'anterior' grid is passed to the class' constructor. Its cells consist of enum
 values which in addition to a random seed determine the output grid whose cells
 consist of purely boolean values.
 
 ALWAYS_FILLED cells in anteriorGrid are always true cells in the base grid. 
 ALWAYS_EMPTY cells in anteriorGrid are always false cells in the base grid, VARIED 
-cells can be either and are determined by a seed. An EnumSpriteOutlineGenerator
-with the same seed an anterior grid will always produce the same output grid.
+cells can be either and are determined by a seed. An EnumSpriteGenerator with
+ the same seed and anterior grid will always produce the same output grid.
 </pre>
  */
-public class EnumSpriteOutlineGenerator extends AbstractSpriteOutlineGenerator<Boolean> implements ISpriteOutlineGenerator<Boolean> {
+public class EnumSpriteGenerator extends AbstractSpriteGenerator<Boolean> implements ISpriteGenerator<Boolean> {
 
     /** 
 	Represents possible states in the generated base grid. ALWAYS_FILLED cells
@@ -42,14 +42,14 @@ public class EnumSpriteOutlineGenerator extends AbstractSpriteOutlineGenerator<B
     protected long seed;
     
     /**
-      Constructs a new instance of EnumSpriteOutlineGenerator based on an ICellGrid
+      Constructs a new instance of EnumSpriteGenerator based on an ICellGrid
       object and a seed.
       
-      @param anteriorGrid an ICellGrid used to generate the sprite outline
+      @param anteriorGrid an ICellGrid used to generate the sprite 
       @param seed the seed used to create a Random object which will be used to
       generate random numbers for cells marked as VARIED in the anteriorGrid
      */
-    public EnumSpriteOutlineGenerator( final ICellGrid<CellState> anteriorGrid, final long seed ) {
+    public EnumSpriteGenerator( final ICellGrid<CellState> anteriorGrid, final long seed ) {
 
 	this.anteriorGrid = anteriorGrid;
 	this.seed = seed;
@@ -89,37 +89,37 @@ public class EnumSpriteOutlineGenerator extends AbstractSpriteOutlineGenerator<B
     }
 
     @Override
-    public ICellGrid<Boolean> genSpriteOutlineAsCellGrid() {
+    public ICellGrid<Boolean> genSpriteAsCellGrid() {
 
 	Random random = new Random(seed);
-	int xLength = getXLengthOfOutline(), yLength = getYLengthOfOutline();
-	ICellGrid<Boolean> spriteOutline = new ArrayListCellGrid(xLength, yLength, false);
+	int xLength = getXLength(), yLength = getYLength();
+	ICellGrid<Boolean> sprite = new ArrayListCellGrid(xLength, yLength, false);
 	for ( int i = 0; i < yLength; i++ ){
 	    for ( int j = 0; j < xLength; j++ ){
 		CellCoordinate coord = new CellCoordinate(j, i);
 		CellState state = anteriorGrid.getValueAt(coord);
 		if ( state.equals(CellState.ALWAYS_FILLED) ){
-		    spriteOutline.setValueAt(coord, true);
+		    sprite.setValueAt(coord, true);
 		}
 		else if ( state.equals(CellState.ALWAYS_EMPTY) ){
-		    spriteOutline.setValueAt(coord, false);
+		    sprite.setValueAt(coord, false);
 		}
 		else {
-		    spriteOutline.setValueAt(coord, random.nextBoolean());
+		    sprite.setValueAt(coord, random.nextBoolean());
 		}
 	    }
 	}
-	return spriteOutline;
+	return sprite;
     }
 
     @Override
-    public int getXLengthOfOutline() {
+    public int getXLength() {
 
 	return anteriorGrid.getXLength();
     }
 
     @Override
-    public int getYLengthOfOutline() {
+    public int getYLength() {
 
 	return anteriorGrid.getYLength();
     }

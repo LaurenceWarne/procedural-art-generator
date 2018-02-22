@@ -6,9 +6,9 @@ import com.gmail.laurencewarne.artgenerator.cellgrid.CellCoordinate;
 
 /**
 Abstract class with a few methods that may be useful for objects implementing the
- ISpriteOutlineGenerator interface.
+ ISpriteGenerator interface.
  */
-public abstract class AbstractSpriteOutlineGenerator<E> implements ISpriteOutlineGenerator<E> {
+public abstract class AbstractSpriteGenerator<T> implements ISpriteGenerator<T> {
 
     /**
        Returns True if the specified coordinate lies within the size of an output
@@ -22,7 +22,7 @@ public abstract class AbstractSpriteOutlineGenerator<E> implements ISpriteOutlin
 	if ( !(coord.x >= 0 && coord.y >= 0) ){
 	    return false;
 	}
-	if ( !(coord.x < getXLengthOfOutline() && coord.y < getYLengthOfOutline()) ){
+	if ( !(coord.x < getXLength() && coord.y < getYLength()) ){
 	    return false;
 	}
 	else {

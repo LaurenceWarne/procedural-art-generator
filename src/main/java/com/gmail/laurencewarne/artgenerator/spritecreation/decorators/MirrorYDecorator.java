@@ -1,14 +1,14 @@
 package com.gmail.laurencewarne.artgenerator.spritecreation.decorators;
 
-import com.gmail.laurencewarne.artgenerator.spritecreation.ISpriteOutlineGenerator;
+import com.gmail.laurencewarne.artgenerator.spritecreation.ISpriteGenerator;
 import com.gmail.laurencewarne.artgenerator.cellgrid.ICellGrid;
 import com.gmail.laurencewarne.artgenerator.cellgrid.ArrayListCellGrid;
 import com.gmail.laurencewarne.artgenerator.cellgrid.CellCoordinate;
 
 
 /**
-Implementation of ISpriteOutineGenerator used as a decorator to mirror the ouput of 
-another ISpriteOutlineGenerator instance either up or down.
+Implementation of ISpriteOutineGenerator used as a decorator to mirror the output 
+of another ISpriteGenerator instance either up or down.
 
 <pre>
 For example if we were to decorate the following grid:
@@ -54,32 +54,32 @@ And if we reflected it up the output would be:
        |---|---|---|
 </pre>
  */
-public class MirrorYDecorator<E> extends SpriteOutlineDecorator<E> implements ISpriteOutlineGenerator<E> {
+public class MirrorYDecorator<T> extends SpriteTransformer<T, T> implements ISpriteGenerator<T> {
 
     /** True means reflect up, false means reflect down. */
     protected boolean reflectUp;
 
     /**
-       Constructs a MirrorYDecorator decorating the specified spriteOutlineGenerator,
+       Constructs a MirrorYDecorator decorating the specified spriteGenerator,
        reflecting the outuput of the decorated object up or down depending on the
        value of reflectUp.
 
-       @param spriteOutlineGenerator the ISpriteOutlineGenerator to be decorated
+       @param spriteGenerator the ISpriteGenerator to be decorated
        @param reflectUp whether the decorator should reflect up or down
     */
-    public MirrorYDecorator( final ISpriteOutlineGenerator<E> spriteOutlineGenerator, final boolean reflectUp ) {
+    public MirrorYDecorator( final ISpriteGenerator<T> spriteGenerator, final boolean reflectUp ) {
 
-	super(spriteOutlineGenerator);
+	super(spriteGenerator);
 	this.reflectUp = reflectUp;
     }
 
     
     @Override
-    public ICellGrid<E> genSpriteOutlineAsCellGrid() {
+    public ICellGrid<T> genSpriteAsCellGrid() {
 
-	ICellGrid<E> baseGrid = super.genSpriteOutlineAsCellGrid();
+	ICellGrid<T> baseGrid = super.genSpriteAsCellGridFromDecoratee();
 	int yLen = baseGrid.getYLength(), xLen = baseGrid.getXLength();
-	ICellGrid<E> decGrid = new ArrayListCellGrid(xLen, yLen*2, null);
+	ICellGrid<T> decGrid = new ArrayListCellGrid<>(xLen, yLen*2, null);
 	for ( int i = 0; i < yLen*2; i++ ){
 	    // We translate this function of i to produce the reflections.
 	    float iFunc = Math.abs(yLen - i - 0.5f);
@@ -101,8 +101,8 @@ public class MirrorYDecorator<E> extends SpriteOutlineDecorator<E> implements IS
     }
 
     @Override
-    public int getYLengthOfOutline() {
+    public int getYLength() {
 
-	return super.getYLengthOfOutline() * 2;
+	return super.getYLength() * 2;
     }
 }

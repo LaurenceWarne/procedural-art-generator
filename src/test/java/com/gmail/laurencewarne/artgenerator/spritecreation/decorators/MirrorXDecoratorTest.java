@@ -10,19 +10,19 @@ import static org.junit.Assert.*;
 import com.gmail.laurencewarne.artgenerator.cellgrid.ICellGrid;
 import com.gmail.laurencewarne.artgenerator.cellgrid.CellCoordinate;
 import com.gmail.laurencewarne.artgenerator.cellgrid.ArrayListCellGrid;
-import com.gmail.laurencewarne.artgenerator.spritecreation.EnumSpriteOutlineGenerator;
+import com.gmail.laurencewarne.artgenerator.spritecreation.EnumSpriteGenerator;
 
 
 public class MirrorXDecoratorTest {
 
     MirrorXDecorator<Boolean> gen1, gen2, gen3, gen4;
-    private final static EnumSpriteOutlineGenerator.CellState ALWAYS_EMPTY =
-	EnumSpriteOutlineGenerator.CellState.ALWAYS_EMPTY;
-    private final static EnumSpriteOutlineGenerator.CellState ALWAYS_FILLED =
-	EnumSpriteOutlineGenerator.CellState.ALWAYS_FILLED;
-    private final static EnumSpriteOutlineGenerator.CellState VARIED =
-	EnumSpriteOutlineGenerator.CellState.VARIED;
-    ICellGrid<EnumSpriteOutlineGenerator.CellState> grid1, grid2, grid3;
+    private final static EnumSpriteGenerator.CellState ALWAYS_EMPTY =
+	EnumSpriteGenerator.CellState.ALWAYS_EMPTY;
+    private final static EnumSpriteGenerator.CellState ALWAYS_FILLED =
+	EnumSpriteGenerator.CellState.ALWAYS_FILLED;
+    private final static EnumSpriteGenerator.CellState VARIED =
+	EnumSpriteGenerator.CellState.VARIED;
+    ICellGrid<EnumSpriteGenerator.CellState> grid1, grid2, grid3;
 
     @Before
     public void setUp() {
@@ -31,9 +31,9 @@ public class MirrorXDecoratorTest {
 	grid1 = new ArrayListCellGrid<>(10, 10, VARIED);
 	grid2 = new ArrayListCellGrid<>(20, 10, VARIED);
 	grid3 = new ArrayListCellGrid<>(3, 2, ALWAYS_FILLED);
-	gen1 = new MirrorXDecorator<>(new EnumSpriteOutlineGenerator(grid1, 13L), true);
-	gen2 = new MirrorXDecorator<>(new EnumSpriteOutlineGenerator(grid2, 13L), false);
-	EnumSpriteOutlineGenerator e = new EnumSpriteOutlineGenerator(grid3, 34L);
+	gen1 = new MirrorXDecorator<>(new EnumSpriteGenerator(grid1, 13L), true);
+	gen2 = new MirrorXDecorator<>(new EnumSpriteGenerator(grid2, 13L), false);
+	EnumSpriteGenerator e = new EnumSpriteGenerator(grid3, 34L);
 	e.setCellStateAt(new CellCoordinate(2, 0), ALWAYS_EMPTY);
 	e.setCellStateAt(new CellCoordinate(2, 1), ALWAYS_EMPTY);	
 	gen3 = new MirrorXDecorator<>(e, true);
@@ -43,27 +43,27 @@ public class MirrorXDecoratorTest {
     @Test
     public void testOutputArrayXLengthIsDoubled() {
 
-	assertEquals(grid1.getXLength() * 2, gen1.getXLengthOfOutline());
-	assertEquals(grid2.getXLength() * 2, gen2.getXLengthOfOutline());
-	assertEquals(grid3.getXLength() * 2, gen3.getXLengthOfOutline());
-	assertEquals(grid3.getXLength() * 2, gen4.getXLengthOfOutline());	
+	assertEquals(grid1.getXLength() * 2, gen1.getXLength());
+	assertEquals(grid2.getXLength() * 2, gen2.getXLength());
+	assertEquals(grid3.getXLength() * 2, gen3.getXLength());
+	assertEquals(grid3.getXLength() * 2, gen4.getXLength());	
     }
 
     @Test
     public void testOutputArrayIsSymmetrical() {
 
-	ICellGrid<Boolean> output1 = gen1.genSpriteOutlineAsCellGrid();
-	for ( int i = 0; i < gen1.getYLengthOfOutline(); i++ ){
-	    for ( int j = 0; j < gen1.getXLengthOfOutline(); j++ ){
+	ICellGrid<Boolean> output1 = gen1.genSpriteAsCellGrid();
+	for ( int i = 0; i < gen1.getYLength(); i++ ){
+	    for ( int j = 0; j < gen1.getXLength(); j++ ){
 		assertEquals(output1.getValueAt(new CellCoordinate(j, i)),
-			     output1.getValueAt(new CellCoordinate(gen1.getXLengthOfOutline() - j - 1, i)));
+			     output1.getValueAt(new CellCoordinate(gen1.getXLength() - j - 1, i)));
 	    }
 	}
-	ICellGrid<Boolean> output2 = gen2.genSpriteOutlineAsCellGrid();	
-	for ( int i = 0; i < gen2.getYLengthOfOutline(); i++ ){
-	    for ( int j = 0; j < gen2.getXLengthOfOutline(); j++ ){
+	ICellGrid<Boolean> output2 = gen2.genSpriteAsCellGrid();	
+	for ( int i = 0; i < gen2.getYLength(); i++ ){
+	    for ( int j = 0; j < gen2.getXLength(); j++ ){
 		assertEquals(output2.getValueAt(new CellCoordinate(j, i)),
-			     output2.getValueAt(new CellCoordinate(gen2.getXLengthOfOutline() - j - 1, i)));
+			     output2.getValueAt(new CellCoordinate(gen2.getXLength() - j - 1, i)));
 	    }
 	}	
     }
@@ -71,8 +71,8 @@ public class MirrorXDecoratorTest {
     @Test
     public void testOutputArrayIsCorrectForRelflectLeftForSmallGenerator() {
 
-	ICellGrid<Boolean> output1 = gen3.genSpriteOutlineAsCellGrid();
-	ICellGrid<Boolean> output2 = gen4.genSpriteOutlineAsCellGrid();	
+	ICellGrid<Boolean> output1 = gen3.genSpriteAsCellGrid();
+	ICellGrid<Boolean> output2 = gen4.genSpriteAsCellGrid();	
 	//undecorated array = new Boolean[] {true, true, false};
 	//leftArray = new Boolean[] {false, true, true, true, true, false};
 	//rightArray = new Boolean[] {true, true, false, false, true, true};
