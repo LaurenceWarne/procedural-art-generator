@@ -11,7 +11,7 @@ import com.gmail.laurencewarne.artgenerator.cellgrid.CellCoordinate;
 import com.gmail.laurencewarne.artgenerator.spritecreation.ConnectedCoordinateCollection;
 
 
-public class RandomConnectedColourFunction extends PaletteHSVColourFunction implements IColourFunction {
+public class RandomConnectedColourFunction extends PaletteColourFunction implements IColourFunction {
 
     private final ConnectedCoordinateCollection connectedCoords;
     private final Map<CellCoordinate, Integer> coordToHueMapping;
@@ -28,13 +28,7 @@ public class RandomConnectedColourFunction extends PaletteHSVColourFunction impl
 	}
     }
 
-    public int[] getRGBColourAtCoordinate( final int x, final int y )
-	throws UnsupportedOperationException {
-
-	throw new UnsupportedOperationException("Method not implemented");
-    }
-
-    public float[] getHSVColourAtCoordinate( final int x, final int y ) {
+    public SpriteColour getColourAtCoordinate( final int x, final int y ) {
 
 	Set<CellCoordinate> connected = new TreeSet<>
 	    (new Comparator<CellCoordinate>() {

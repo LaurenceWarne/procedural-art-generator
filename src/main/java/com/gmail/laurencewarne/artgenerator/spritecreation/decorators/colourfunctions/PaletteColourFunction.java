@@ -6,13 +6,13 @@ import java.util.TreeMap;
 import java.util.Random;
 
 
-public abstract class PaletteHSVColourFunction implements IColourFunction {
+public abstract class PaletteColourFunction implements IColourFunction {
 
     protected Palette palette;
 
-    public PaletteHSVColourFunction( final Map<Integer, Integer> hueWeightings ) {
+    public PaletteColourFunction( final Map<Integer, Integer> hueWeightings ) {
 
-	palette = new PaletteHSVColourFunction.Palette(hueWeightings);
+	palette = new PaletteColourFunction.Palette(hueWeightings);
     }
 
     public Palette getPalette() {
