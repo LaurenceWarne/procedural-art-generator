@@ -14,7 +14,6 @@ public class ColourFillerDecorator extends SpriteTransformer<Boolean, SpriteColo
 
     public ColourFillerDecorator( final ISpriteGenerator<Boolean> spriteGenerator, final IColourFunction colourFunction ) {
 
-	// use HSV
 	super(spriteGenerator);
 	this.colourFunction = colourFunction;
     }

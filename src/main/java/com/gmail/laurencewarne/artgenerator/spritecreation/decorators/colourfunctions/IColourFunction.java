@@ -13,7 +13,8 @@ public interface IColourFunction {
        
        @param  x the x coordinate of the pixel
        @param  y the y coordinate of the pixel
-       @throws IllegalArgumentException if either the x or y coordinates are not valid
+       @throws IllegalArgumentException if either the x or y coordinates are not
+       valid
      */
     SpriteColour getColourAtCoordinate( int x, int y ) throws IllegalArgumentException;
 }
